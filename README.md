@@ -1,11 +1,11 @@
 # MT-
-
+```
 import pandas as pd
 import numpy as np
 from scipy.stats import multivariate_normal
 from scipy.stats import chi2
 import matplotlib.pyplot as plt
-
+```
 class MT:
   def __init__(self,traindata,testdata):
     self.data=traindata
