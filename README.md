@@ -1,4 +1,5 @@
-# MT-
+# MT法　反復
+必要なインポート
 ```
 import pandas as pd
 import numpy as np
@@ -6,6 +7,10 @@ from scipy.stats import multivariate_normal
 from scipy.stats import chi2
 import matplotlib.pyplot as plt
 ```
+
+MT法の適用。引数は単位空間データ、判定したい空間のデータ
+判定ルールは自由度項目数ｐのχ２分布の右５％点
+第一種の過誤である誤報率（正常を異常と判定）、検出力（異常を異常と判定）を出力できる。
 ```
 class MT:
   def __init__(self,traindata,testdata):
@@ -109,7 +114,9 @@ class MT:
     self.proportion = count / len(self.mahalanobis_dist)
     return self.proportion
 ```
-
+シミュレーションデータを使った繰り返し計算。
+変数の数はいくらでもいいが、ここでは2変量正規乱数を作成。正常と異常データをプロットするとピッケルのような形になっている。
+最終結果は誤報率と検出力
 ```
 
     #反復
@@ -127,16 +134,16 @@ for i in range(100):
    traindata = pd.DataFrame(np.random.multivariate_normal(mu_train, cov_train, 100), columns=["x1", "x2"])
    testdata = pd.DataFrame(np.random.multivariate_normal(mu_test, cov_test, 100), columns=["x1", "x2"])
 
-    # Instantiate MT class
+    
    mt = MT(traindata, testdata)
 
-    # Run mh_det method and store the result
+    
    ken= mt.mh_det()
    gohou = mt.mh_sig()
    kens.append(ken)
    gohous.append(gohou)
 
-# Print the list of results
+
 print(np.mean(kens))
 print(np.mean(gohous))
 ```
