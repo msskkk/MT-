@@ -99,8 +99,8 @@ class MT:
       self.mh_test()
 
     import scipy.stats as sps
-    sps.chi2.ppf(q = 0.95, df = self.data.shape[1])
-    count = sum(dist >= 5 for dist in self.mahalanobis_dist_test)
+    K=sps.chi2.ppf(q = 0.95, df = self.data.shape[1])
+    count = sum(dist >= K for dist in self.mahalanobis_dist_test)
     self.testproportion = count / len(self.mahalanobis_dist_test)
     return self.testproportion
 
@@ -109,8 +109,8 @@ class MT:
       self.mh()
 
     import scipy.stats as sps
-    sps.chi2.ppf(q = 0.95, df = self.data.shape[1])
-    count = sum(dist >= 5 for dist in self.mahalanobis_dist)
+    K=sps.chi2.ppf(q = 0.95, df = self.data.shape[1])
+    count = sum(dist >= K for dist in self.mahalanobis_dist)
     self.proportion = count / len(self.mahalanobis_dist)
     return self.proportion
 ```
