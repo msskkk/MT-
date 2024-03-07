@@ -6,6 +6,7 @@ from scipy.stats import multivariate_normal
 from scipy.stats import chi2
 import matplotlib.pyplot as plt
 ```
+```
 class MT:
   def __init__(self,traindata,testdata):
     self.data=traindata
@@ -107,7 +108,9 @@ class MT:
     count = sum(dist >= 5 for dist in self.mahalanobis_dist)
     self.proportion = count / len(self.mahalanobis_dist)
     return self.proportion
+```
 
+```
 
     #反復
 
@@ -136,3 +139,4 @@ for i in range(100):
 # Print the list of results
 print(np.mean(kens))
 print(np.mean(gohous))
+```
