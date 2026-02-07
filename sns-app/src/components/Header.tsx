@@ -25,6 +25,12 @@ export default function Header({ user, onLogout }: HeaderProps) {
           SNS App
         </Link>
         <nav className="flex items-center gap-4">
+          <Link
+            href="/gacha"
+            className="text-sm text-green-500 hover:text-green-600 font-semibold"
+          >
+            🎲 散歩ガチャ
+          </Link>
           {user ? (
             <>
               <Link
