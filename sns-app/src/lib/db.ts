@@ -1,57 +1,60 @@
-import Database from "better-sqlite3";
-import path from "path";
+import { createClient, type Client } from "@libsql/client";
 
-const DB_PATH = path.join(process.cwd(), "sns.db");
+let client: Client | null = null;
+let initialized = false;
 
-let db: Database.Database | null = null;
-
-export function getDb(): Database.Database {
-  if (!db) {
-    db = new Database(DB_PATH);
-    db.pragma("journal_mode = WAL");
-    db.pragma("foreign_keys = ON");
-    initializeDb(db);
+function getClient(): Client {
+  if (!client) {
+    client = createClient({
+      url: process.env.TURSO_DATABASE_URL || "file:local.db",
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    });
   }
-  return db;
+  return client;
 }
 
-function initializeDb(db: Database.Database) {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
-      username TEXT UNIQUE NOT NULL,
-      display_name TEXT NOT NULL,
-      password_hash TEXT NOT NULL,
-      bio TEXT DEFAULT '',
-      created_at TEXT DEFAULT (datetime('now'))
-    );
+export async function getDb(): Promise<Client> {
+  const db = getClient();
+  if (!initialized) {
+    await db.executeMultiple(`
+      CREATE TABLE IF NOT EXISTS users (
+        id TEXT PRIMARY KEY,
+        username TEXT UNIQUE NOT NULL,
+        display_name TEXT NOT NULL,
+        password_hash TEXT NOT NULL,
+        bio TEXT DEFAULT '',
+        created_at TEXT DEFAULT (datetime('now'))
+      );
 
-    CREATE TABLE IF NOT EXISTS posts (
-      id TEXT PRIMARY KEY,
-      user_id TEXT NOT NULL,
-      content TEXT NOT NULL,
-      created_at TEXT DEFAULT (datetime('now')),
-      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    );
+      CREATE TABLE IF NOT EXISTS posts (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT DEFAULT (datetime('now')),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      );
 
-    CREATE TABLE IF NOT EXISTS likes (
-      id TEXT PRIMARY KEY,
-      user_id TEXT NOT NULL,
-      post_id TEXT NOT NULL,
-      created_at TEXT DEFAULT (datetime('now')),
-      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-      FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-      UNIQUE(user_id, post_id)
-    );
+      CREATE TABLE IF NOT EXISTS likes (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        post_id TEXT NOT NULL,
+        created_at TEXT DEFAULT (datetime('now')),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+        UNIQUE(user_id, post_id)
+      );
 
-    CREATE TABLE IF NOT EXISTS follows (
-      id TEXT PRIMARY KEY,
-      follower_id TEXT NOT NULL,
-      following_id TEXT NOT NULL,
-      created_at TEXT DEFAULT (datetime('now')),
-      FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
-      FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE,
-      UNIQUE(follower_id, following_id)
-    );
-  `);
+      CREATE TABLE IF NOT EXISTS follows (
+        id TEXT PRIMARY KEY,
+        follower_id TEXT NOT NULL,
+        following_id TEXT NOT NULL,
+        created_at TEXT DEFAULT (datetime('now')),
+        FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(follower_id, following_id)
+      );
+    `);
+    initialized = true;
+  }
+  return db;
 }

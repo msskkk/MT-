@@ -28,12 +28,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = getDb();
-  const existing = db
-    .prepare("SELECT id FROM users WHERE username = ?")
-    .get(username);
+  const db = await getDb();
+  const existing = await db.execute({
+    sql: "SELECT id FROM users WHERE username = ?",
+    args: [username],
+  });
 
-  if (existing) {
+  if (existing.rows.length > 0) {
     return NextResponse.json(
       { error: "このユーザー名は既に使用されています" },
       { status: 409 }
@@ -43,9 +44,10 @@ export async function POST(request: Request) {
   const id = uuidv4();
   const passwordHash = bcrypt.hashSync(password, 10);
 
-  db.prepare(
-    "INSERT INTO users (id, username, display_name, password_hash) VALUES (?, ?, ?, ?)"
-  ).run(id, username, displayName, passwordHash);
+  await db.execute({
+    sql: "INSERT INTO users (id, username, display_name, password_hash) VALUES (?, ?, ?, ?)",
+    args: [id, username, displayName, passwordHash],
+  });
 
   const response = NextResponse.json({ success: true });
   response.cookies.set(getSessionCookieName(), id, {

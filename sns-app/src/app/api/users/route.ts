@@ -10,16 +10,15 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const db = getDb();
-  const user = db
-    .prepare(
-      "SELECT id, username, display_name, bio FROM users WHERE username = ?"
-    )
-    .get(username);
+  const db = await getDb();
+  const result = await db.execute({
+    sql: "SELECT id, username, display_name, bio FROM users WHERE username = ?",
+    args: [username],
+  });
 
-  if (!user) {
+  if (result.rows.length === 0) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ user });
+  return NextResponse.json({ user: result.rows[0] });
 }

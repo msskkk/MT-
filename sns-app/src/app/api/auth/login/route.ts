@@ -13,12 +13,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = getDb();
-  const user = db
-    .prepare("SELECT id, password_hash FROM users WHERE username = ?")
-    .get(username) as { id: string; password_hash: string } | undefined;
+  const db = await getDb();
+  const result = await db.execute({
+    sql: "SELECT id, password_hash FROM users WHERE username = ?",
+    args: [username],
+  });
 
-  if (!user || !bcrypt.compareSync(password, user.password_hash)) {
+  const user = result.rows[0];
+  if (!user || !bcrypt.compareSync(password, user.password_hash as string)) {
     return NextResponse.json(
       { error: "ユーザー名またはパスワードが正しくありません" },
       { status: 401 }
@@ -26,7 +28,7 @@ export async function POST(request: Request) {
   }
 
   const response = NextResponse.json({ success: true });
-  response.cookies.set(getSessionCookieName(), user.id, {
+  response.cookies.set(getSessionCookieName(), user.id as string, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

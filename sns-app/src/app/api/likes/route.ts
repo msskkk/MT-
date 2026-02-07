@@ -10,24 +10,26 @@ export async function POST(request: Request) {
   }
 
   const { postId } = await request.json();
-  const db = getDb();
+  const db = await getDb();
 
-  const existing = db
-    .prepare("SELECT id FROM likes WHERE user_id = ? AND post_id = ?")
-    .get(user.id, postId);
+  const existing = await db.execute({
+    sql: "SELECT id FROM likes WHERE user_id = ? AND post_id = ?",
+    args: [user.id, postId],
+  });
 
-  if (existing) {
-    db.prepare("DELETE FROM likes WHERE user_id = ? AND post_id = ?").run(
-      user.id,
-      postId
-    );
+  if (existing.rows.length > 0) {
+    await db.execute({
+      sql: "DELETE FROM likes WHERE user_id = ? AND post_id = ?",
+      args: [user.id, postId],
+    });
     return NextResponse.json({ liked: false });
   }
 
   const id = uuidv4();
-  db.prepare(
-    "INSERT INTO likes (id, user_id, post_id) VALUES (?, ?, ?)"
-  ).run(id, user.id, postId);
+  await db.execute({
+    sql: "INSERT INTO likes (id, user_id, post_id) VALUES (?, ?, ?)",
+    args: [id, user.id, postId],
+  });
 
   return NextResponse.json({ liked: true });
 }
@@ -38,10 +40,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "postId is required" }, { status: 400 });
   }
 
-  const db = getDb();
-  const count = db
-    .prepare("SELECT COUNT(*) as count FROM likes WHERE post_id = ?")
-    .get(postId) as { count: number };
+  const db = await getDb();
+  const result = await db.execute({
+    sql: "SELECT COUNT(*) as count FROM likes WHERE post_id = ?",
+    args: [postId],
+  });
 
-  return NextResponse.json({ count: count.count });
+  return NextResponse.json({ count: result.rows[0].count });
 }
