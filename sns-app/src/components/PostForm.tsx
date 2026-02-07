@@ -58,7 +58,7 @@ export default function PostForm({ onPost }: PostFormProps) {
         <button
           type="submit"
           disabled={!content.trim() || loading || remaining < 0}
-          className="bg-blue-500 text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-green-500 text-white px-5 py-1.5 rounded-full text-sm font-semibold hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "投稿中..." : "投稿する"}
         </button>

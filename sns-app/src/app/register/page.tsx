@@ -36,7 +36,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <h1 className="text-3xl font-bold text-center text-blue-500 mb-8">
+        <h1 className="text-3xl font-bold text-center text-green-500 mb-8">
           SNS App
         </h1>
         <form
@@ -55,7 +55,7 @@ export default function RegisterPage() {
               placeholder="ユーザー名 (3〜20文字、英数字)"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
               minLength={3}
               maxLength={20}
@@ -67,7 +67,7 @@ export default function RegisterPage() {
               placeholder="表示名"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
             />
           </div>
@@ -77,7 +77,7 @@ export default function RegisterPage() {
               placeholder="パスワード (6文字以上)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
               minLength={6}
             />
@@ -85,13 +85,13 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 disabled:opacity-50"
+            className="w-full bg-green-500 text-white py-2 rounded-lg font-semibold hover:bg-green-600 disabled:opacity-50"
           >
             {loading ? "登録中..." : "アカウントを作成"}
           </button>
           <p className="text-center text-sm text-gray-500">
             既にアカウントをお持ちの方は{" "}
-            <Link href="/login" className="text-blue-500 hover:underline">
+            <Link href="/login" className="text-green-500 hover:underline">
               ログイン
             </Link>
           </p>

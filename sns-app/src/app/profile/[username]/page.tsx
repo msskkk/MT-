@@ -131,7 +131,7 @@ export default function ProfilePage({
         <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-2xl">
+              <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-2xl">
                 {profileUser.display_name.charAt(0)}
               </div>
               <div>
@@ -147,7 +147,7 @@ export default function ProfilePage({
                 className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
                   followInfo.isFollowing
                     ? "bg-gray-200 text-gray-700 hover:bg-red-100 hover:text-red-600"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
+                    : "bg-green-500 text-white hover:bg-green-600"
                 }`}
               >
                 {followInfo.isFollowing ? "フォロー中" : "フォローする"}
