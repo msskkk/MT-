@@ -19,7 +19,7 @@
 
 <script>
 // ============================================================
-// DATA: All 6 bundles with their tools
+// DATA: 40 bundles grouped into 8 categories
 // ============================================================
 const bundles = [
   {
@@ -823,9 +823,33 @@ const bundles = [
 ];
 
 // ============================================================
+// CATEGORIES — 8 groups for 40 bundles
+// ============================================================
+const categories = [
+  {id:"life",name:"暮らし",emoji:"🏠",gradient:"from-orange-400 to-amber-500",
+    bundleIds:["daily","cook","archive","moving","realestate","sleep","eco"]},
+  {id:"health",name:"美容・健康",emoji:"💪",gradient:"from-pink-400 to-rose-500",
+    bundleIds:["health","beauty","fitness","fashion","therapy"]},
+  {id:"work",name:"仕事・マネー",emoji:"💼",gradient:"from-blue-500 to-indigo-600",
+    bundleIds:["sidehustle","biz","legal","money","invest"]},
+  {id:"creative",name:"クリエイティブ",emoji:"🎨",gradient:"from-violet-500 to-purple-600",
+    bundleIds:["creator","design","music","photo","writer"]},
+  {id:"study",name:"学び",emoji:"📚",gradient:"from-emerald-500 to-teal-600",
+    bundleIds:["student","learn","lang"]},
+  {id:"family",name:"家族・ペット",emoji:"👨‍👩‍👧",gradient:"from-sky-400 to-blue-500",
+    bundleIds:["parent","kid","senior","wedding","pet"]},
+  {id:"hobby",name:"趣味・遊び",emoji:"🎮",gradient:"from-fuchsia-500 to-pink-600",
+    bundleIds:["diy","garden","game","event","date"]},
+  {id:"outing",name:"おでかけ・情報",emoji:"🚗",gradient:"from-cyan-500 to-blue-600",
+    bundleIds:["travel","car","sns","news","access"]}
+];
+
+// ============================================================
 // STATE
 // ============================================================
-let currentView = "home"; // "home" | bundle id
+let currentView = "home"; // "home" | "category" | "bundle"
+let currentCategoryId = null;
+let currentBundleId = null;
 let currentBundle = null;
 let currentToolIdx = 0;
 
@@ -836,30 +860,78 @@ function render(){
   const root = document.getElementById('root');
   if(currentView === "home"){
     root.innerHTML = renderHome();
+  } else if(currentView === "category"){
+    root.innerHTML = renderCategory();
   } else {
-    currentBundle = bundles.find(b=>b.id===currentView);
+    currentBundle = bundles.find(b=>b.id===currentBundleId);
     root.innerHTML = renderBundle(currentBundle);
   }
 }
 
 function renderHome(){
-  const cards = bundles.map(b=>`
-    <button onclick="openBundle('${b.id}')" class="flex flex-col items-center gap-2 group">
-      <div class="w-20 h-20 md:w-24 md:h-24 rounded-[22px] bg-gradient-to-br ${b.gradient} shadow-lg flex items-center justify-center transition-all group-hover:scale-110 group-hover:shadow-xl group-active:scale-95">
-        <span class="text-3xl md:text-4xl">${b.emoji}</span>
+  const cards = categories.map(c=>{
+    const count = c.bundleIds.length;
+    return `
+    <button onclick="openCategory('${c.id}')" class="flex flex-col items-center gap-3 group">
+      <div class="w-24 h-24 md:w-28 md:h-28 rounded-[26px] bg-gradient-to-br ${c.gradient} shadow-lg flex items-center justify-center transition-all group-hover:scale-110 group-hover:shadow-xl group-active:scale-95">
+        <span class="text-4xl md:text-5xl">${c.emoji}</span>
       </div>
-      <span class="text-xs font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">${b.name}</span>
-    </button>
-  `).join('');
+      <div class="text-center">
+        <span class="text-xs font-bold text-gray-700 group-hover:text-gray-900 transition-colors block">${c.name}</span>
+        <span class="text-[10px] text-gray-400">${count}個のアプリ</span>
+      </div>
+    </button>`;
+  }).join('');
 
   return `
-    <main class="max-w-md mx-auto px-6 py-16 min-h-screen flex flex-col justify-center">
+    <main class="max-w-lg mx-auto px-6 py-16 min-h-screen flex flex-col justify-center">
       <div class="text-center mb-14">
         <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">AI Super App</h1>
         <p class="text-gray-400 text-sm">毎日開く、を作る。</p>
       </div>
-      <div class="grid grid-cols-4 sm:grid-cols-5 gap-y-8 gap-x-3 justify-items-center">${cards}</div>
-      <p class="text-center text-[10px] text-gray-300 mt-16">Inspired by Pieter Levels</p>
+      <div class="grid grid-cols-3 sm:grid-cols-4 gap-y-10 gap-x-4 justify-items-center">${cards}</div>
+      <p class="text-center text-[10px] text-gray-300 mt-16">40 AI apps in one — Inspired by Pieter Levels</p>
+    </main>`;
+}
+
+function renderCategory(){
+  const cat = categories.find(c=>c.id===currentCategoryId);
+  const catBundles = cat.bundleIds.map(id=>bundles.find(b=>b.id===id)).filter(Boolean);
+  const cards = catBundles.map(b=>`
+    <button onclick="openBundle('${b.id}')" class="flex flex-col items-center gap-2 group">
+      <div class="w-20 h-20 md:w-24 md:h-24 rounded-[22px] bg-gradient-to-br ${b.gradient} shadow-lg flex items-center justify-center transition-all group-hover:scale-110 group-hover:shadow-xl group-active:scale-95">
+        <span class="text-3xl md:text-4xl">${b.emoji}</span>
+      </div>
+      <div class="text-center">
+        <span class="text-xs font-semibold text-gray-700 group-hover:text-gray-900 transition-colors block">${b.name}</span>
+        <span class="text-[10px] text-gray-400">${b.tools.length} tools</span>
+      </div>
+    </button>
+  `).join('');
+
+  return `
+    <main class="max-w-lg mx-auto px-4 min-h-screen">
+      <!-- Category Header -->
+      <div class="bg-gradient-to-r ${cat.gradient} rounded-b-3xl px-6 pt-8 pb-8 text-white mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <button onclick="goHome()" class="w-9 h-9 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-white/40 transition-colors active:scale-90">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <span class="text-xs text-white/50">${catBundles.length} apps</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-5xl">${cat.emoji}</span>
+          <div>
+            <h1 class="text-3xl font-bold">${cat.name}</h1>
+            <p class="text-white/70 text-sm mt-1">${catBundles.length}個のAIアプリ</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bundle Grid -->
+      <div class="px-2 pb-16">
+        <div class="grid grid-cols-3 sm:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">${cards}</div>
+      </div>
     </main>`;
 }
 
@@ -880,7 +952,7 @@ function renderBundle(b){
       <!-- Header -->
       <div class="bg-gradient-to-r ${b.gradient} px-5 pt-6 pb-5 text-white">
         <div class="flex items-center justify-between mb-1">
-          <button onclick="goHome()" class="w-9 h-9 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-white/40 transition-colors active:scale-90">
+          <button onclick="goBackToCategory()" class="w-9 h-9 rounded-full bg-white/20 backdrop-blur flex items-center justify-center hover:bg-white/40 transition-colors active:scale-90">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           </button>
           <span class="text-xs text-white/50">${b.tools.length} tools</span>
@@ -938,8 +1010,16 @@ function buildInput(tool, gradient){
 // ============================================================
 // ACTIONS
 // ============================================================
+function openCategory(id){
+  currentView = "category";
+  currentCategoryId = id;
+  render();
+  window.scrollTo(0,0);
+}
+
 function openBundle(id){
-  currentView = id;
+  currentView = "bundle";
+  currentBundleId = id;
   currentToolIdx = 0;
   render();
   window.scrollTo(0,0);
@@ -947,6 +1027,17 @@ function openBundle(id){
 
 function goHome(){
   currentView = "home";
+  currentCategoryId = null;
+  currentBundleId = null;
+  currentBundle = null;
+  currentToolIdx = 0;
+  render();
+  window.scrollTo(0,0);
+}
+
+function goBackToCategory(){
+  currentView = "category";
+  currentBundleId = null;
   currentBundle = null;
   currentToolIdx = 0;
   render();
