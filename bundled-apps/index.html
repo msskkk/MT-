@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Super App — 6つのAIアプリを1つに</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@keyframes fadein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fadein{animation:fadein .4s ease-out forwards}
+@keyframes bounce1{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.dot1{animation:bounce1 .8s infinite}.dot2{animation:bounce1 .8s .15s infinite}.dot3{animation:bounce1 .8s .3s infinite}
+.tab-enter{animation:fadein .3s ease-out}
+</style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+
+<div id="root"></div>
+
+<script>
+// ============================================================
+// DATA: All 6 bundles with their tools
+// ============================================================
+const bundles = [
+  {
+    id:"daily",name:"DailyAI",tagline:"毎日のAIアシスタント",emoji:"☀️",
+    gradient:"from-orange-400 to-amber-500",bgLight:"bg-orange-50",
+    tools:[
+      {id:"wardrobe",name:"コーデ提案",emoji:"👔",type:"image-upload",
+        inputLabel:"クローゼットの写真をアップロード",
+        outputLabel:"今日のおすすめコーデ",
+        results:["☀️ 天気: 晴れ 18℃ → 軽めのアウター推奨","👕 トップス: 白Tシャツ + ネイビーカーディガン","👖 ボトムス: ベージュチノパン","👟 シューズ: 白スニーカー","💡 カジュアルだけど清潔感あり。デートにも◎"]},
+      {id:"calorie",name:"カロリー解析",emoji:"🍽️",type:"image-upload",
+        inputLabel:"料理の写真をアップロード",
+        outputLabel:"栄養分析結果",
+        results:["🔥 推定カロリー: 685 kcal","🥩 タンパク質: 32g | 💪 脂質: 24g | 🍚 炭水化物: 78g","📊 PFCバランス: P18% / F32% / C50%","⚠️ 塩分がやや高め (推定 4.2g)","💡 提案: サラダを追加でビタミンC補給がおすすめ"]},
+      {id:"recipe",name:"レシピ提案",emoji:"🍳",type:"image-upload",
+        inputLabel:"冷蔵庫の写真をアップロード",
+        outputLabel:"レシピ提案",
+        results:["🔍 検出食材: 卵、豆腐、ネギ、豚肉、キャベツ、味噌","🍳 レシピ1: 豚キャベツの味噌炒め(15分)","🍳 レシピ2: ふわふわ卵の豆腐チャンプルー(10分)","🍳 レシピ3: 具だくさん味噌汁+卵かけごはん(8分)","📊 栄養バランス: レシピ2がPFCバランス最良","💡 買い足し提案: にんじん+しめじで+3レシピ追加可能"]}
+    ]
+  },
+  {
+    id:"creator",name:"CreatorAI",tagline:"クリエイターのためのAIスタジオ",emoji:"🎬",
+    gradient:"from-red-500 to-rose-600",bgLight:"bg-rose-50",
+    tools:[
+      {id:"thumbnail",name:"サムネ生成",emoji:"🖼️",type:"text-input",
+        inputLabel:"動画のタイトルを入力",
+        placeholder:"例: 【衝撃】AIで月収100万円稼ぐ方法を試してみた",
+        outputLabel:"生成されたサムネイル候補",
+        results:["🎨 パターンA: 驚き顔+大きな金額テキスト+赤背景","🎨 パターンB: ビフォーアフター分割+矢印エフェクト","🎨 パターンC: ミニマルデザイン+インパクトフォント","📊 予測CTR: パターンA 8.2% / B 7.5% / C 6.1%","💡 推奨: パターンAが最もクリック率が高い傾向"]},
+      {id:"voice",name:"声クローン",emoji:"🎙️",type:"text-input",
+        inputLabel:"読み上げたいテキストを入力",
+        placeholder:"例: こんにちは、今日の動画では最新のAI技術について解説します...",
+        outputLabel:"音声生成結果",
+        results:["🎙️ 音声クローン精度: 94.7%","⏱️ 生成時間: 3.2秒","📊 自然さスコア: 4.6/5.0","🔊 MP3/WAV形式でダウンロード可能","💡 感情パラメータ: ニュートラル → 明るい/落ち着き に変更可能"]},
+      {id:"pitch",name:"スライド生成",emoji:"📊",type:"text-input",
+        inputLabel:"ビジネスの概要を入力",
+        placeholder:"例: AIを使って飲食店の食品ロスを50%削減するSaaS...",
+        outputLabel:"生成されたスライド構成",
+        results:["📊 スライド1: タイトル — FoodSave AI","📊 スライド2: 課題 — 年間600万トンの食品ロス","📊 スライド3: ソリューション — AI需要予測+自動発注","📊 スライド4: 市場規模 — TAM ¥2.5兆","📊 スライド5-12: ビジネスモデル/チーム/財務計画...","📦 PowerPoint/PDF/Googleスライドでエクスポート可能"]}
+    ]
+  },
+  {
+    id:"sidehustle",name:"SideHustleAI",tagline:"副業・フリーランスのAI相棒",emoji:"💼",
+    gradient:"from-emerald-500 to-teal-600",bgLight:"bg-emerald-50",
+    tools:[
+      {id:"listing",name:"出品文生成",emoji:"🏷️",type:"image-upload",
+        inputLabel:"出品したい商品の写真をアップロード",
+        outputLabel:"生成された出品文",
+        results:["📦 商品名: 【美品】Nike Air Max 90 ホワイト 27cm","💰 推奨価格: ¥8,500〜¥9,800(相場: ¥7,000〜¥12,000)","📝 説明文: 2回のみ着用の美品です。箱・タグ付き。サイズ27cm...","🏷️ カテゴリ: メンズ > 靴 > スニーカー","💡 ヒント: 横からの写真を追加すると売れやすさUP"]},
+      {id:"invoice",name:"請求書作成",emoji:"💴",type:"form-input",
+        inputLabel:"請求情報を入力",
+        fields:[{n:"取引先",p:"例: 株式会社サンプル"},{n:"項目",p:"例: Webサイト制作"},{n:"金額",p:"例: 300000"},{n:"支払期限",p:"例: 2025/02/28"}],
+        outputLabel:"生成された請求書",
+        results:["📄 請求書番号: INV-2025-0042","💰 小計: ¥300,000 | 消費税(10%): ¥30,000 | 合計: ¥330,000","🏦 振込先情報を自動記載","📧 PDFをメールで直接送信可能","📊 今月の売上合計: ¥1,230,000 | 未入金: ¥330,000"]},
+      {id:"contract",name:"契約書チェック",emoji:"⚖️",type:"file-upload",
+        inputLabel:"契約書をアップロード (PDF)",
+        outputLabel:"リスク分析結果",
+        results:["🔴 高リスク: 第8条 — 競業避止義務が退職後5年間は長すぎる","🔴 高リスク: 第12条 — 損害賠償の上限規定がない","🟡 中リスク: 第5条 — 知的財産権の帰属が曖昧","🟢 問題なし: 報酬条件、支払いサイクル、解約条件","💡 総合リスクスコア: 6.2/10 — 修正交渉を推奨"]}
+    ]
+  },
+  {
+    id:"beauty",name:"BeautyAI",tagline:"あなたの魅力を最大化するAI",emoji:"💄",
+    gradient:"from-rose-400 to-pink-600",bgLight:"bg-pink-50",
+    tools:[
+      {id:"skin",name:"スキンケア診断",emoji:"✨",type:"image-upload",
+        inputLabel:"顔の写真をアップロード",
+        outputLabel:"スキンケア診断結果",
+        results:["🔍 肌質: 混合肌(Tゾーン脂性/Uゾーン乾燥)","⚠️ 気になる点: 毛穴の開き(鼻周り)、軽度の色素沈着","💊 朝: 泡洗顔→ビタミンC美容液→保湿→日焼け止め","🌙 夜: クレンジング→AHA洗顔→レチノール→クリーム","🛍️ おすすめ: CeraVe洗顔、The Ordinary ナイアシンアミド"]},
+      {id:"outfit",name:"コーデ提案",emoji:"👔",type:"image-upload",
+        inputLabel:"クローゼットの写真をアップロード",
+        outputLabel:"今日のおすすめコーデ",
+        results:["☀️ 天気: 晴れ 18℃ → 軽めのアウター推奨","👕 トップス: 白ブラウス + ベージュトレンチ","👖 ボトムス: ネイビーワイドパンツ","👠 シューズ: ベージュパンプス","💡 オフィスカジュアル◎ 清潔感と女性らしさのバランス"]},
+      {id:"headshot",name:"プロフ写真",emoji:"👤",type:"image-upload",
+        inputLabel:"自撮り写真をアップロード(3枚以上推奨)",
+        outputLabel:"生成されたプロフィール写真",
+        results:["👔 スーツ姿 — ネイビー/チャコール/ブラック 3色","👕 ビジネスカジュアル — ジャケット+シャツ","📸 背景: グレーグラデーション / オフィス / 白壁","✨ レタッチ: 肌補正+ライティング調整済み","📐 サイズ: LinkedIn/名刺/社員証 各フォーマット対応"]}
+    ]
+  },
+  {
+    id:"parent",name:"ParentAI",tagline:"家族のためのAIアシスタント",emoji:"👨‍👩‍👧‍👦",
+    gradient:"from-yellow-400 to-amber-500",bgLight:"bg-yellow-50",
+    tools:[
+      {id:"babyname",name:"命名",emoji:"👶",type:"form-input",
+        inputLabel:"命名条件を入力",
+        fields:[{n:"姓",p:"例: 田中"},{n:"好みの響き",p:"例: 柔らかい、力強い"},{n:"漢字の希望",p:"例: 陽、空、美"},{n:"性別",p:"男の子 / 女の子"}],
+        outputLabel:"おすすめの名前候補",
+        results:["🌟 陽翔(はると) — 画数32画(大吉) 太陽のように明るく翔ける","🌟 蒼空(そら) — 画数21画(吉) 広い空のようなスケール感","🌟 結月(ゆづき) — 画数16画(大吉) 人の縁を結ぶ月の光","🌟 凛(りん) — 画数15画(吉) 凛とした美しさ","📊 全100候補をPDFでダウンロード可能"]},
+      {id:"recipe2",name:"レシピ",emoji:"🍳",type:"image-upload",
+        inputLabel:"冷蔵庫の写真をアップロード",
+        outputLabel:"レシピ提案",
+        results:["🔍 検出食材: 卵、豆腐、ネギ、豚肉、キャベツ、味噌","🍳 レシピ1: 豚キャベツの味噌炒め(15分)","🍳 レシピ2: ふわふわ卵の豆腐チャンプルー(10分)","🍳 レシピ3: 具だくさん味噌汁+卵かけごはん(8分)","💡 子どもが食べやすいのはレシピ2(甘め味付け)"]},
+      {id:"plant",name:"植物診断",emoji:"🌿",type:"image-upload",
+        inputLabel:"植物の写真をアップロード",
+        outputLabel:"診断結果",
+        results:["🔍 植物: モンステラ・デリシオサ","⚠️ 症状: 葉先の褐変 — 根腐れの初期症状","💊 対処法: 水やりを週1回に減らし、排水性の良い土に植え替え","💡 適切な環境: 明るい間接光、湿度60%以上","📅 次の水やり: 3日後(土が乾いてから)"]},
+      {id:"receipt",name:"家計簿",emoji:"🧾",type:"image-upload",
+        inputLabel:"レシートの写真をアップロード",
+        outputLabel:"読み取り結果",
+        results:["🏪 店舗: セブンイレブン 渋谷店","📅 日時: 2025/01/15 12:34","🛒 おにぎり(鮭) ¥160 → 食費","🛒 緑茶500ml ¥150 → 飲料","🛒 電池単3 ¥330 → 日用品","💰 合計: ¥640 | 今月の食費累計: ¥32,450"]}
+    ]
+  },
+  {
+    id:"student",name:"StudentAI",tagline:"学びから就活まで、AIがサポート",emoji:"🎓",
+    gradient:"from-blue-500 to-indigo-600",bgLight:"bg-blue-50",
+    tools:[
+      {id:"study",name:"問題集生成",emoji:"📚",type:"image-upload",
+        inputLabel:"教科書/ノートの写真をアップロード",
+        outputLabel:"生成された問題集",
+        results:["📖 認識内容: 日本史 — 明治維新の章","❓ Q1: 大政奉還を行った将軍は? → 徳川慶喜","❓ Q2: 廃藩置県は何年? → 1871年","❓ Q3: 西南戦争の中心人物は? → 西郷隆盛","📊 生成問題数: 25問(一問一答15問 + 選択式10問)","💡 Ankiデッキ形式でエクスポート可能"]},
+      {id:"tone",name:"トーン変換",emoji:"✏️",type:"text-input",
+        inputLabel:"変換したい文章を入力",
+        placeholder:"例: 会議の日程を変更していただけないでしょうか。",
+        outputLabel:"トーン変換結果",
+        results:["💼 フォーマル: 会議日程のご変更をお願いできますでしょうか。","😊 カジュアル: ミーティングの日にち変えてもらえる?","😄 フレンドリー: すみません、会議の日程ちょっとずらせたりしますか〜?","🎓 学術的: 会議の日程調整について、ご検討をお願い申し上げます。","🇬🇧 英語: Would it be possible to reschedule our meeting?"]},
+      {id:"resume",name:"履歴書最適化",emoji:"📄",type:"file-upload",
+        inputLabel:"職務経歴書をアップロード (PDF/Word)",
+        outputLabel:"最適化された職務経歴書",
+        results:["✅ 職務要約を成果ベースに書き換えました","✅ アクションワードを強化: 「担当」→「主導」「推進」","✅ 定量的な成果を追加: 売上20%向上、チーム8名のマネジメント","✅ ATS(採用管理システム)最適化済み","✅ 業界キーワードを12個追加"]}
+    ]
+  }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentView = "home"; // "home" | bundle id
+let currentBundle = null;
+let currentToolIdx = 0;
+
+// ============================================================
+// RENDER
+// ============================================================
+function render(){
+  const root = document.getElementById('root');
+  if(currentView === "home"){
+    root.innerHTML = renderHome();
+  } else {
+    currentBundle = bundles.find(b=>b.id===currentView);
+    root.innerHTML = renderBundle(currentBundle);
+  }
+}
+
+function renderHome(){
+  const cards = bundles.map(b=>`
+    <button onclick="openBundle('${b.id}')" class="block w-full text-left group">
+      <div class="relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+        <div class="absolute inset-0 bg-gradient-to-br ${b.gradient} opacity-0 group-hover:opacity-5 transition-opacity"></div>
+        <div class="relative">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-4xl">${b.emoji}</span>
+            <div>
+              <h3 class="font-bold text-gray-900 text-xl">${b.name}</h3>
+              <p class="text-xs text-gray-400">${b.tagline}</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-4">
+            ${b.tools.map(t=>`<span class="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">${t.emoji} ${t.name}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </button>
+  `).join('');
+
+  return `
+    <main class="max-w-2xl mx-auto px-4 py-12">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">AI Super App</h1>
+        <p class="text-gray-500">6つのAIアプリを1つに。毎日開く、を作る。</p>
+        <div class="mt-4 flex items-center justify-center gap-4 text-xs text-gray-400">
+          <span>6 Apps</span><span>|</span><span>20 AI Tools</span><span>|</span><span>ビルド不要</span>
+        </div>
+      </div>
+      <div class="grid gap-4">${cards}</div>
+      <p class="text-center text-xs text-gray-300 mt-12">Inspired by Pieter Levels — シンプルだけど毎日使われるAIを</p>
+    </main>`;
+}
+
+function renderBundle(b){
+  const tool = b.tools[currentToolIdx];
+  const inputHTML = buildInput(tool, b.gradient);
+  const tabs = b.tools.map((t,i)=>{
+    const active = i===currentToolIdx;
+    return `<button onclick="switchTool(${i})" class="flex flex-col items-center gap-1 py-2 px-1 flex-1 transition-colors ${active?'text-gray-900':'text-gray-400 hover:text-gray-600'}">
+      <span class="text-xl">${t.emoji}</span>
+      <span class="text-[10px] font-medium leading-tight">${t.name}</span>
+      ${active?`<span class="w-1 h-1 rounded-full bg-gradient-to-r ${b.gradient} inline-block"></span>`:''}
+    </button>`;
+  }).join('');
+
+  return `
+    <div class="max-w-lg mx-auto min-h-screen flex flex-col">
+      <!-- Header -->
+      <div class="bg-gradient-to-r ${b.gradient} px-5 pt-6 pb-5 text-white">
+        <div class="flex items-center justify-between mb-1">
+          <button onclick="goHome()" class="text-white/70 hover:text-white text-sm transition-colors">← 戻る</button>
+          <span class="text-xs text-white/50">${b.tools.length} tools</span>
+        </div>
+        <div class="flex items-center gap-3 mt-2">
+          <span class="text-3xl">${b.emoji}</span>
+          <div>
+            <h1 class="text-2xl font-bold">${b.name}</h1>
+            <p class="text-white/70 text-xs">${b.tagline}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool Content -->
+      <div class="flex-1 px-4 py-6 pb-24 tab-enter" id="tool-content">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
+          <h3 class="font-semibold text-gray-800 mb-4 text-sm">${tool.inputLabel}</h3>
+          <div class="space-y-3">${inputHTML}</div>
+          <button id="process-btn" onclick="processAI()" class="mt-4 w-full py-3 rounded-xl text-white font-semibold text-sm bg-gradient-to-r ${b.gradient} hover:opacity-90 transition-opacity active:scale-[0.98]">
+            ${tool.emoji} AIで処理する
+          </button>
+        </div>
+        <div id="results-area" class="mt-5"></div>
+      </div>
+
+      <!-- Bottom Tab Nav -->
+      <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 pb-[env(safe-area-inset-bottom)]">
+        <div class="max-w-lg mx-auto flex">${tabs}</div>
+      </div>
+    </div>`;
+}
+
+function buildInput(tool, gradient){
+  if(tool.type==='image-upload'||tool.type==='file-upload'){
+    const icon = tool.type==='image-upload'?'📷':'📎';
+    const accept = tool.type==='image-upload'?'image/*':'.pdf,.doc,.docx,.txt';
+    return `
+      <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-gray-400 transition-colors">
+        <div class="text-3xl mb-2">${icon}</div>
+        <p class="text-xs text-gray-400 mb-3">クリックまたはドラッグ&ドロップ</p>
+        <input type="file" class="hidden" id="file-input" accept="${accept}" onchange="document.getElementById('file-name').textContent='✓ '+this.files[0]?.name">
+        <label for="file-input" class="inline-block px-4 py-2 rounded-lg text-xs font-medium cursor-pointer bg-gradient-to-r ${gradient} text-white hover:opacity-90 transition-opacity">ファイルを選択</label>
+        <p id="file-name" class="text-xs text-green-600 mt-2"></p>
+      </div>`;
+  } else if(tool.type==='text-input'){
+    return `<textarea class="w-full border border-gray-300 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" rows="4" placeholder="${tool.placeholder||''}"></textarea>`;
+  } else {
+    return tool.fields.map(f=>`
+      <div><label class="block text-xs font-medium text-gray-500 mb-1">${f.n}</label>
+      <input type="text" placeholder="${f.p}" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"></div>
+    `).join('');
+  }
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+function openBundle(id){
+  currentView = id;
+  currentToolIdx = 0;
+  render();
+  window.scrollTo(0,0);
+}
+
+function goHome(){
+  currentView = "home";
+  currentBundle = null;
+  currentToolIdx = 0;
+  render();
+  window.scrollTo(0,0);
+}
+
+function switchTool(idx){
+  currentToolIdx = idx;
+  render();
+}
+
+function processAI(){
+  const b = currentBundle;
+  const tool = b.tools[currentToolIdx];
+  const btn = document.getElementById('process-btn');
+  btn.disabled = true;
+  btn.innerHTML = `<span class="flex items-center justify-center gap-2"><span class="flex gap-1"><span class="w-2 h-2 bg-white rounded-full dot1 inline-block"></span><span class="w-2 h-2 bg-white rounded-full dot2 inline-block"></span><span class="w-2 h-2 bg-white rounded-full dot3 inline-block"></span></span> AIが処理中...</span>`;
+
+  setTimeout(()=>{
+    btn.disabled = false;
+    btn.innerHTML = `${tool.emoji} AIで処理する`;
+    const resultsHTML = tool.results.map((r,i)=>`
+      <div class="text-sm text-gray-700 p-3 bg-gray-50 rounded-lg fadein" style="animation-delay:${i*80}ms">${r}</div>
+    `).join('');
+    document.getElementById('results-area').innerHTML = `
+      <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm fadein">
+        <h3 class="font-semibold text-gray-800 mb-3 text-sm flex items-center gap-2">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse inline-block"></span>${tool.outputLabel}
+        </h3>
+        <div class="space-y-2">${resultsHTML}</div>
+        <div class="mt-4 flex gap-2">
+          <button class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">📋 コピー</button>
+          <button class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">💾 保存</button>
+          <button onclick="processAI()" class="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">🔄 再生成</button>
+        </div>
+      </div>`;
+  }, 2000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+render();
+</script>
+</body>
+</html>
