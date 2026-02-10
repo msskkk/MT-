@@ -1,0 +1,204 @@
+{
+  "tools": {
+    "daily": {
+      "wardrobe": "코디 추천", "wardrobe_input": "옷장 사진 업로드", "wardrobe_output": "오늘의 추천 코디",
+      "calorie": "칼로리 분석", "calorie_input": "식사 사진 업로드", "calorie_output": "칼로리·영양 분석",
+      "recipe": "레시피 추천", "recipe_input": "냉장고 사진 업로드", "recipe_output": "추천 레시피"
+    },
+    "creator": {
+      "thumbnail": "썸네일 생성", "thumbnail_input": "영상 제목 입력", "thumbnail_output": "썸네일 안",
+      "voice": "목소리 클론", "voice_input": "원고 텍스트 입력", "voice_output": "음성 스크립트",
+      "pitch": "슬라이드 생성", "pitch_input": "발표 주제 입력", "pitch_output": "슬라이드 구성"
+    },
+    "sidehustle": {
+      "listing": "상품 설명 생성", "listing_input": "상품 사진 업로드", "listing_output": "상품 설명 문구",
+      "invoice": "청구서 생성", "invoice_input": "청구 정보 입력", "invoice_output": "청구서 미리보기",
+      "contract": "계약서 검토", "contract_input": "계약서 파일 업로드", "contract_output": "검토 결과"
+    },
+    "beauty": {
+      "skin": "피부 진단", "skin_input": "얼굴 사진 업로드", "skin_output": "피부 분석 리포트",
+      "outfit": "코디 추천", "outfit_input": "전신 사진 업로드", "outfit_output": "코디 제안",
+      "headshot": "프로필 사진", "headshot_input": "셀카 사진 업로드", "headshot_output": "프로필 사진"
+    },
+    "parent": {
+      "babyname": "작명", "babyname_input": "작명 조건 입력", "babyname_output": "추천 이름",
+      "plant": "식물 진단", "plant_input": "식물 사진 업로드", "plant_output": "진단 결과",
+      "receipt": "가계부", "receipt_input": "영수증 사진 업로드", "receipt_output": "기장 결과"
+    },
+    "student": {
+      "study": "문제집 생성", "study_input": "교재 사진 업로드", "study_output": "연습 문제",
+      "tone": "톤 변환", "tone_input": "변환할 글 입력", "tone_output": "변환 결과",
+      "resume": "이력서 최적화", "resume_input": "이력서 파일 업로드", "resume_output": "최적화 제안"
+    },
+    "health": {
+      "symptom": "증상 체크", "symptom_input": "건강 정보 입력", "symptom_output": "건강 조언",
+      "run": "러닝 루트", "run_input": "러닝 조건 입력", "run_output": "추천 루트",
+      "meal": "식단 관리", "meal_input": "식단 정보 입력", "meal_output": "식단 플랜"
+    },
+    "design": {
+      "logo": "로고 생성", "logo_input": "브랜드 정보 입력", "logo_output": "로고 안",
+      "color": "배색 팔레트", "color_input": "참고 이미지 업로드", "color_output": "배색 제안",
+      "mockup": "목업 생성", "mockup_input": "제품 정보 입력", "mockup_output": "목업 디자인"
+    },
+    "realestate": {
+      "floor": "3D 인테리어", "floor_input": "방 사진 업로드", "floor_output": "디자인 안",
+      "value": "부동산 시세", "value_input": "부동산 정보 입력", "value_output": "시세 결과",
+      "checklist": "방문 체크리스트", "checklist_input": "방문 조건 입력", "checklist_output": "체크리스트"
+    },
+    "sns": {
+      "caption": "캡션 생성", "caption_input": "게시물 주제 입력", "caption_output": "캡션 안",
+      "hashtag": "해시태그 분석", "hashtag_input": "콘텐츠 키워드 입력", "hashtag_output": "추천 해시태그",
+      "bg": "상품 사진 편집", "bg_input": "상품 사진 업로드", "bg_output": "편집 결과"
+    },
+    "money": {
+      "budget": "예산 계획", "budget_input": "재무 정보 입력", "budget_output": "예산 계획",
+      "tax": "세금 도우미", "tax_input": "수입 정보 입력", "tax_output": "세금 조언",
+      "saving": "저축 계획", "saving_input": "저축 목표 입력", "saving_output": "저축 플랜"
+    },
+    "pet": {
+      "petphoto": "반려동물 사진", "petphoto_input": "반려동물 사진 업로드", "petphoto_output": "편집된 사진",
+      "petfood": "반려동물 식단", "petfood_input": "반려동물 정보 입력", "petfood_output": "식단 조언",
+      "petsymptom": "반려동물 건강", "petsymptom_input": "증상 설명", "petsymptom_output": "건강 조언"
+    },
+    "travel": {
+      "plan": "여행 계획", "plan_input": "여행 조건 입력", "plan_output": "여행 플랜",
+      "pack": "짐 싸기 목록", "pack_input": "목적지 정보 입력", "pack_output": "준비물 목록",
+      "phrase": "여행 회화", "phrase_input": "상황 입력", "phrase_output": "유용한 회화"
+    },
+    "writer": {
+      "blog": "블로그 작성", "blog_input": "글 주제 입력", "blog_output": "글 초안",
+      "mail": "메일 작성", "mail_input": "메일 요점 입력", "mail_output": "메일 초안",
+      "proofread": "교정", "proofread_input": "교정할 글 입력", "proofread_output": "교정 결과"
+    },
+    "diy": {
+      "plan": "DIY 계획", "plan_input": "현장 사진 업로드", "plan_output": "제작 계획",
+      "cost": "비용 견적", "cost_input": "프로젝트 정보 입력", "cost_output": "비용 내역",
+      "fix": "수리 가이드", "fix_input": "파손 사진 업로드", "fix_output": "수리 순서"
+    },
+    "music": {
+      "chord": "코드 진행", "chord_input": "음악 장르 입력", "chord_output": "코드 안",
+      "lyric": "가사 생성", "lyric_input": "가사 주제 입력", "lyric_output": "가사 초안",
+      "mix": "믹싱 조언", "mix_input": "곡 정보 입력", "mix_output": "믹싱 제안"
+    },
+    "game": {
+      "idea": "게임 아이디어", "idea_input": "게임 장르 입력", "idea_output": "아이디어 안",
+      "story": "스토리 설정", "story_input": "세계관 설정 입력", "story_output": "스토리 개요",
+      "balance": "밸런스 조정", "balance_input": "수치 정보 입력", "balance_output": "밸런스 제안"
+    },
+    "cook": {
+      "arrange": "요리 개선", "arrange_input": "요리 사진 업로드", "arrange_output": "개선 제안",
+      "menu": "식단 계획", "menu_input": "식사 조건 입력", "menu_output": "주간 식단",
+      "pairing": "페어링 추천", "pairing_input": "메인 요리 입력", "pairing_output": "페어링 안"
+    },
+    "fitness": {
+      "form": "자세 체크", "form_input": "운동 사진 업로드", "form_output": "자세 지도",
+      "program": "트레이닝 계획", "program_input": "훈련 목표 입력", "program_output": "훈련 프로그램",
+      "stretch": "스트레칭 안", "stretch_input": "신체 상태 입력", "stretch_output": "스트레칭 메뉴"
+    },
+    "photo": {
+      "enhance": "사진 보정", "enhance_input": "사진 업로드", "enhance_output": "보정 제안",
+      "comp": "구도 조언", "comp_input": "사진 업로드", "comp_output": "구도 분석",
+      "edit": "편집 가이드", "edit_input": "사진 업로드", "edit_output": "편집 순서"
+    },
+    "legal": {
+      "check": "계약서 검토", "check_input": "계약서 파일 업로드", "check_output": "검토 결과",
+      "consult": "법률 상담", "consult_input": "법률 문제 설명", "consult_output": "법률 조언",
+      "letter": "서한 작성", "letter_input": "서한 요점 입력", "letter_output": "서한 초안"
+    },
+    "learn": {
+      "explain": "개념 설명", "explain_input": "배우고 싶은 내용 입력", "explain_output": "설명",
+      "quiz": "퀴즈 생성", "quiz_input": "학습 범위 입력", "quiz_output": "연습 문제",
+      "roadmap": "학습 로드맵", "roadmap_input": "학습 목표 입력", "roadmap_output": "학습 계획"
+    },
+    "wedding": {
+      "plan": "웨딩 기획", "plan_input": "웨딩 조건 입력", "plan_output": "기획안",
+      "speech": "축사 작성", "speech_input": "축사 정보 입력", "speech_output": "축사 초안",
+      "budget": "예산 관리", "budget_input": "예산 정보 입력", "budget_output": "예산 배분"
+    },
+    "moving": {
+      "checklist": "이사 체크리스트", "checklist_input": "이사 조건 입력", "checklist_output": "할 일 목록",
+      "cost": "비용 견적", "cost_input": "이사 정보 입력", "cost_output": "비용 내역",
+      "layout": "배치 계획", "layout_input": "방 사진 업로드", "layout_output": "배치 안"
+    },
+    "kid": {
+      "story": "동화 생성", "story_input": "이야기 조건 입력", "story_output": "오리지널 동화",
+      "quiz": "학습 퀴즈", "quiz_input": "학습 범위 입력", "quiz_output": "연습 문제",
+      "craft": "만들기 아이디어", "craft_input": "재료 정보 입력", "craft_output": "만들기 안"
+    },
+    "senior": {
+      "health": "건강 관리", "health_input": "건강 정보 입력", "health_output": "건강 조언",
+      "digital": "디지털 가이드", "digital_input": "조작 문제 설명", "digital_output": "조작 가이드",
+      "memory": "추억 정리", "memory_input": "옛 사진 업로드", "memory_output": "추억 이야기"
+    },
+    "date": {
+      "plan": "데이트 기획", "plan_input": "데이트 조건 입력", "plan_output": "데이트 플랜",
+      "gift": "선물 추천", "gift_input": "상대방 정보 입력", "gift_output": "선물 추천",
+      "message": "메시지 작성", "message_input": "메시지 상황 입력", "message_output": "메시지 초안"
+    },
+    "car": {
+      "diagnose": "고장 진단", "diagnose_input": "차량 문제 설명", "diagnose_output": "진단 결과",
+      "cost": "비용 견적", "cost_input": "차량 정보 입력", "cost_output": "연간 비용",
+      "compare": "차종 비교", "compare_input": "후보 차종 입력", "compare_output": "비교 분석"
+    },
+    "sleep": {
+      "analyze": "수면 분석", "analyze_input": "수면 정보 입력", "analyze_output": "분석 리포트",
+      "routine": "생활 리듬", "routine_input": "생활 습관 입력", "routine_output": "개선 안",
+      "sound": "수면 사운드", "sound_input": "취향 입력", "sound_output": "추천 안"
+    },
+    "eco": {
+      "footprint": "탄소 발자국", "footprint_input": "생활 정보 입력", "footprint_output": "탄소 발자국 리포트",
+      "swap": "친환경 대안", "swap_input": "일용품 사진 업로드", "swap_output": "대안 제안",
+      "save": "에너지 절약", "save_input": "에너지 사용 정보 입력", "save_output": "절약 안"
+    },
+    "invest": {
+      "analysis": "투자 분석", "analysis_input": "투자 정보 입력", "analysis_output": "분석 리포트",
+      "portfolio": "자산 배분", "portfolio_input": "자산 정보 입력", "portfolio_output": "배분 제안",
+      "news": "시장 동향", "news_input": "관심 분야 입력", "news_output": "시장 분석"
+    },
+    "therapy": {
+      "journal": "기분 일기", "journal_input": "오늘의 기분을 적어주세요", "journal_output": "심리 피드백",
+      "breathe": "호흡 연습", "breathe_input": "현재 상태 입력", "breathe_output": "연습 안",
+      "cbt": "인지 치료", "cbt_input": "고민 설명", "cbt_output": "인지 분석"
+    },
+    "fashion": {
+      "coord": "코디 추천", "coord_input": "옷 사진 업로드", "coord_output": "코디 안",
+      "trend": "트렌드 분석", "trend_input": "스타일 취향 입력", "trend_output": "트렌드 리포트",
+      "capsule": "캡슐 옷장", "capsule_input": "예산과 스타일 입력", "capsule_output": "추천 목록"
+    },
+    "garden": {
+      "identify": "식물 식별", "identify_input": "식물 사진 업로드", "identify_output": "식별 결과",
+      "calendar": "재배 달력", "calendar_input": "재배 조건 입력", "calendar_output": "재배 계획",
+      "trouble": "문제 진단", "trouble_input": "문제 사진 업로드", "trouble_output": "해결 방법"
+    },
+    "biz": {
+      "swot": "SWOT 분석", "swot_input": "사업 정보 입력", "swot_output": "분석 리포트",
+      "pitch": "사업 계획", "pitch_input": "프로젝트 개요 입력", "pitch_output": "사업 계획서",
+      "email": "비즈니스 메일", "email_input": "메일 요점 입력", "email_output": "메일 초안"
+    },
+    "lang": {
+      "conv": "회화 연습", "conv_input": "외국어로 대화 시작", "conv_output": "회화 피드백",
+      "vocab": "단어장", "vocab_input": "학습 조건 입력", "vocab_output": "단어 목록",
+      "trans": "번역+해설", "trans_input": "번역할 문장 입력", "trans_output": "번역 결과"
+    },
+    "archive": {
+      "closet": "옷장 정리", "closet_input": "옷장 사진 업로드", "closet_output": "정리 안",
+      "desk": "책상 정리", "desk_input": "책상 사진 업로드", "desk_output": "개선 안",
+      "digital": "스마트폰 정리", "digital_input": "스마트폰 상태 입력", "digital_output": "디지털 정리 안"
+    },
+    "event": {
+      "plan": "이벤트 기획", "plan_input": "이벤트 정보 입력", "plan_output": "기획안",
+      "invite": "초대장", "invite_input": "이벤트 정보 입력", "invite_output": "초대장 문구",
+      "gift": "선물 추천", "gift_input": "상대방 정보 입력", "gift_output": "선물 추천"
+    },
+    "access": {
+      "web": "웹 접근성 진단", "web_input": "웹사이트 URL 입력", "web_output": "진단 리포트",
+      "doc": "쉬운 일본어 변환", "doc_input": "변환할 문장 입력", "doc_output": "쉬운 버전",
+      "sign": "안내판 디자인", "sign_input": "안내판 정보 입력", "sign_output": "디자인 안"
+    },
+    "news": {
+      "summary": "뉴스 요약", "summary_input": "뉴스 URL 또는 본문 붙여넣기", "summary_output": "요약 결과",
+      "brief": "아침 브리핑", "brief_input": "관심 분야 선택", "brief_output": "오늘의 브리핑",
+      "fact": "팩트체크", "fact_input": "확인할 정보 입력", "fact_output": "팩트체크 결과"
+    }
+  }
+}

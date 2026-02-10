@@ -1,0 +1,204 @@
+{
+  "tools": {
+    "daily": {
+      "wardrobe": "コーデ提案", "wardrobe_input": "クローゼットの写真をアップロード", "wardrobe_output": "今日のおすすめコーデ",
+      "calorie": "カロリー解析", "calorie_input": "食事の写真をアップロード", "calorie_output": "カロリー・栄養分析",
+      "recipe": "レシピ提案", "recipe_input": "冷蔵庫の写真をアップロード", "recipe_output": "おすすめレシピ"
+    },
+    "creator": {
+      "thumbnail": "サムネ生成", "thumbnail_input": "動画タイトルを入力", "thumbnail_output": "サムネイル案",
+      "voice": "声クローン", "voice_input": "原稿テキストを入力", "voice_output": "音声スクリプト",
+      "pitch": "スライド生成", "pitch_input": "プレゼンのテーマを入力", "pitch_output": "スライド構成"
+    },
+    "sidehustle": {
+      "listing": "出品文生成", "listing_input": "商品の写真をアップロード", "listing_output": "出品文案",
+      "invoice": "請求書作成", "invoice_input": "請求情報を入力", "invoice_output": "請求書プレビュー",
+      "contract": "契約書チェック", "contract_input": "契約書ファイルをアップロード", "contract_output": "チェック結果"
+    },
+    "beauty": {
+      "skin": "スキンケア診断", "skin_input": "顔の写真をアップロード", "skin_output": "スキンケア分析",
+      "outfit": "コーデ提案", "outfit_input": "全身の写真をアップロード", "outfit_output": "コーデ提案",
+      "headshot": "プロフ写真", "headshot_input": "自撮り写真をアップロード", "headshot_output": "プロフィール写真"
+    },
+    "parent": {
+      "babyname": "命名", "babyname_input": "命名の条件を入力", "babyname_output": "おすすめの名前",
+      "plant": "植物診断", "plant_input": "植物の写真をアップロード", "plant_output": "診断結果",
+      "receipt": "家計簿", "receipt_input": "レシートの写真をアップロード", "receipt_output": "記帳結果"
+    },
+    "student": {
+      "study": "問題集生成", "study_input": "教科書の写真をアップロード", "study_output": "練習問題",
+      "tone": "トーン変換", "tone_input": "変換したい文章を入力", "tone_output": "変換結果",
+      "resume": "履歴書最適化", "resume_input": "履歴書ファイルをアップロード", "resume_output": "最適化提案"
+    },
+    "health": {
+      "symptom": "症状チェック", "symptom_input": "健康情報を入力", "symptom_output": "健康アドバイス",
+      "run": "ランニングルート", "run_input": "ランニング条件を入力", "run_output": "おすすめルート",
+      "meal": "食事管理", "meal_input": "食事情報を入力", "meal_output": "食事プラン"
+    },
+    "design": {
+      "logo": "ロゴ生成", "logo_input": "ブランド情報を入力", "logo_output": "ロゴ案",
+      "color": "配色パレット", "color_input": "参考画像をアップロード", "color_output": "配色提案",
+      "mockup": "モックアップ生成", "mockup_input": "プロダクト情報を入力", "mockup_output": "モックアップ"
+    },
+    "realestate": {
+      "floor": "3D内装", "floor_input": "部屋の写真をアップロード", "floor_output": "内装プラン",
+      "value": "物件査定", "value_input": "物件情報を入力", "value_output": "査定結果",
+      "checklist": "内見チェックリスト", "checklist_input": "内見条件を入力", "checklist_output": "チェックリスト"
+    },
+    "sns": {
+      "caption": "キャプション生成", "caption_input": "投稿テーマを入力", "caption_output": "キャプション案",
+      "hashtag": "ハッシュタグ分析", "hashtag_input": "コンテンツキーワードを入力", "hashtag_output": "おすすめタグ",
+      "bg": "商品写真加工", "bg_input": "商品の写真をアップロード", "bg_output": "加工アドバイス"
+    },
+    "money": {
+      "budget": "予算管理", "budget_input": "収支情報を入力", "budget_output": "予算プラン",
+      "tax": "確定申告サポート", "tax_input": "収入情報を入力", "tax_output": "税務アドバイス",
+      "saving": "貯金プラン", "saving_input": "貯金目標を入力", "saving_output": "貯蓄プラン"
+    },
+    "pet": {
+      "petphoto": "ペット写真", "petphoto_input": "ペットの写真をアップロード", "petphoto_output": "撮影アドバイス",
+      "petfood": "ごはん相談", "petfood_input": "ペット情報を入力", "petfood_output": "食事アドバイス",
+      "petsymptom": "健康チェック", "petsymptom_input": "ペットの症状を入力", "petsymptom_output": "健康アドバイス"
+    },
+    "travel": {
+      "plan": "旅行プラン", "plan_input": "旅行条件を入力", "plan_output": "旅行プラン",
+      "pack": "持ち物リスト", "pack_input": "目的地情報を入力", "pack_output": "持ち物リスト",
+      "phrase": "旅行会話", "phrase_input": "場面を入力", "phrase_output": "使えるフレーズ"
+    },
+    "writer": {
+      "blog": "ブログ執筆", "blog_input": "記事テーマを入力", "blog_output": "記事構成",
+      "mail": "メール起草", "mail_input": "メールの要点を入力", "mail_output": "メール案",
+      "proofread": "校正", "proofread_input": "校正したい文章を入力", "proofread_output": "校正結果"
+    },
+    "diy": {
+      "plan": "DIY計画", "plan_input": "現場の写真をアップロード", "plan_output": "制作プラン",
+      "cost": "コスト見積", "cost_input": "プロジェクト情報を入力", "cost_output": "コスト内訳",
+      "fix": "修理ガイド", "fix_input": "壊れた箇所の写真をアップロード", "fix_output": "修理手順"
+    },
+    "music": {
+      "chord": "コード進行", "chord_input": "音楽ジャンルを入力", "chord_output": "コード案",
+      "lyric": "歌詞生成", "lyric_input": "歌詞テーマを入力", "lyric_output": "歌詞案",
+      "mix": "ミックスアドバイス", "mix_input": "楽曲情報を入力", "mix_output": "ミックス提案"
+    },
+    "game": {
+      "idea": "ゲーム企画", "idea_input": "ゲームジャンルを入力", "idea_output": "企画案",
+      "story": "ストーリー設定", "story_input": "世界観設定を入力", "story_output": "ストーリー概要",
+      "balance": "バランス調整", "balance_input": "パラメータ情報を入力", "balance_output": "バランス提案"
+    },
+    "cook": {
+      "arrange": "料理アレンジ", "arrange_input": "料理の写真をアップロード", "arrange_output": "アレンジ提案",
+      "menu": "献立作成", "menu_input": "食事の条件を入力", "menu_output": "1週間の献立",
+      "pairing": "ペアリング提案", "pairing_input": "メイン料理を入力", "pairing_output": "ペアリング案"
+    },
+    "fitness": {
+      "form": "フォームチェック", "form_input": "トレーニング写真をアップロード", "form_output": "フォーム指導",
+      "program": "トレーニング計画", "program_input": "トレーニング目標を入力", "program_output": "トレーニングプログラム",
+      "stretch": "ストレッチメニュー", "stretch_input": "体の状態を入力", "stretch_output": "ストレッチメニュー"
+    },
+    "photo": {
+      "enhance": "写真補正", "enhance_input": "写真をアップロード", "enhance_output": "補正アドバイス",
+      "comp": "構図アドバイス", "comp_input": "写真をアップロード", "comp_output": "構図分析",
+      "edit": "レタッチガイド", "edit_input": "写真をアップロード", "edit_output": "編集手順"
+    },
+    "legal": {
+      "check": "契約書チェック", "check_input": "契約書ファイルをアップロード", "check_output": "チェック結果",
+      "consult": "法律相談", "consult_input": "法律の疑問を入力", "consult_output": "法律アドバイス",
+      "letter": "内容証明起草", "letter_input": "書面の要点を入力", "letter_output": "書面案"
+    },
+    "learn": {
+      "explain": "わかりやすく解説", "explain_input": "学びたい内容を入力", "explain_output": "解説",
+      "quiz": "確認テスト", "quiz_input": "学習範囲を入力", "quiz_output": "テスト問題",
+      "roadmap": "学習ロードマップ", "roadmap_input": "学習目標を入力", "roadmap_output": "学習計画"
+    },
+    "wedding": {
+      "plan": "ウェディング企画", "plan_input": "ウェディング条件を入力", "plan_output": "企画プラン",
+      "speech": "スピーチ起草", "speech_input": "スピーチ情報を入力", "speech_output": "スピーチ案",
+      "budget": "予算管理", "budget_input": "予算情報を入力", "budget_output": "予算配分"
+    },
+    "moving": {
+      "checklist": "引越しチェックリスト", "checklist_input": "引越し条件を入力", "checklist_output": "やることリスト",
+      "cost": "費用見積", "cost_input": "引越し情報を入力", "cost_output": "費用内訳",
+      "layout": "レイアウト提案", "layout_input": "部屋の写真をアップロード", "layout_output": "レイアウト案"
+    },
+    "kid": {
+      "story": "お話生成", "story_input": "お話の条件を入力", "story_output": "オリジナルお話",
+      "quiz": "学習クイズ", "quiz_input": "学習範囲を入力", "quiz_output": "クイズ問題",
+      "craft": "工作アイデア", "craft_input": "材料情報を入力", "craft_output": "工作プラン"
+    },
+    "senior": {
+      "health": "健康管理", "health_input": "健康情報を入力", "health_output": "健康アドバイス",
+      "digital": "デジタル教室", "digital_input": "操作の疑問を入力", "digital_output": "操作ガイド",
+      "memory": "思い出整理", "memory_input": "古い写真をアップロード", "memory_output": "思い出ストーリー"
+    },
+    "date": {
+      "plan": "デートプラン", "plan_input": "デート条件を入力", "plan_output": "デートプラン",
+      "gift": "プレゼント提案", "gift_input": "相手の情報を入力", "gift_output": "プレゼント候補",
+      "message": "メッセージ起草", "message_input": "メッセージの場面を入力", "message_output": "メッセージ案"
+    },
+    "car": {
+      "diagnose": "故障診断", "diagnose_input": "車の症状を入力", "diagnose_output": "診断結果",
+      "cost": "維持費試算", "cost_input": "車両情報を入力", "cost_output": "年間維持費",
+      "compare": "車種比較", "compare_input": "候補車種を入力", "compare_output": "比較分析"
+    },
+    "sleep": {
+      "analyze": "睡眠分析", "analyze_input": "睡眠情報を入力", "analyze_output": "分析レポート",
+      "routine": "ナイトルーティン", "routine_input": "生活習慣を入力", "routine_output": "改善プラン",
+      "sound": "睡眠サウンド", "sound_input": "好みを入力", "sound_output": "おすすめサウンド"
+    },
+    "eco": {
+      "footprint": "カーボンフットプリント", "footprint_input": "生活情報を入力", "footprint_output": "CO2排出レポート",
+      "swap": "エコ代替品", "swap_input": "日用品の写真をアップロード", "swap_output": "代替品提案",
+      "save": "省エネ提案", "save_input": "エネルギー使用情報を入力", "save_output": "省エネプラン"
+    },
+    "invest": {
+      "analysis": "投資分析", "analysis_input": "投資情報を入力", "analysis_output": "分析レポート",
+      "portfolio": "資産配分", "portfolio_input": "資産情報を入力", "portfolio_output": "配分提案",
+      "news": "マーケット解説", "news_input": "気になるトピックを入力", "news_output": "マーケット分析"
+    },
+    "therapy": {
+      "journal": "気分日記", "journal_input": "今日の気持ちを書いてください", "journal_output": "心理フィードバック",
+      "breathe": "呼吸エクササイズ", "breathe_input": "今の状態を入力", "breathe_output": "エクササイズ案",
+      "cbt": "認知行動療法", "cbt_input": "悩みを入力", "cbt_output": "認知分析"
+    },
+    "fashion": {
+      "coord": "コーデ提案", "coord_input": "服の写真をアップロード", "coord_output": "コーデ案",
+      "trend": "トレンド分析", "trend_input": "好みのスタイルを入力", "trend_output": "トレンドレポート",
+      "capsule": "カプセルワードローブ", "capsule_input": "予算とスタイルを入力", "capsule_output": "おすすめリスト"
+    },
+    "garden": {
+      "identify": "植物識別", "identify_input": "植物の写真をアップロード", "identify_output": "識別結果",
+      "calendar": "栽培カレンダー", "calendar_input": "栽培条件を入力", "calendar_output": "栽培スケジュール",
+      "trouble": "トラブル診断", "trouble_input": "問題の写真をアップロード", "trouble_output": "対処法"
+    },
+    "biz": {
+      "swot": "SWOT分析", "swot_input": "事業情報を入力", "swot_output": "分析レポート",
+      "pitch": "事業計画", "pitch_input": "プロジェクト概要を入力", "pitch_output": "事業計画書",
+      "email": "ビジネスメール", "email_input": "メールの要点を入力", "email_output": "メール案"
+    },
+    "lang": {
+      "conv": "会話練習", "conv_input": "外国語で話しかけてください", "conv_output": "会話フィードバック",
+      "vocab": "単語帳生成", "vocab_input": "学習条件を入力", "vocab_output": "単語リスト",
+      "trans": "翻訳+解説", "trans_input": "翻訳したい文を入力", "trans_output": "翻訳結果"
+    },
+    "archive": {
+      "closet": "クローゼット整理", "closet_input": "クローゼットの写真をアップロード", "closet_output": "整理プラン",
+      "desk": "デスク整理", "desk_input": "デスクの写真をアップロード", "desk_output": "改善プラン",
+      "digital": "スマホ整理", "digital_input": "スマホの状態を入力", "digital_output": "デジタル整理プラン"
+    },
+    "event": {
+      "plan": "イベント企画", "plan_input": "イベント概要を入力", "plan_output": "企画プラン",
+      "invite": "招待状作成", "invite_input": "イベント情報を入力", "invite_output": "招待状テキスト",
+      "gift": "プレゼント提案", "gift_input": "相手の情報を入力", "gift_output": "プレゼント候補"
+    },
+    "access": {
+      "web": "Webアクセス診断", "web_input": "WebサイトのURLを入力", "web_output": "アクセシビリティ診断",
+      "doc": "やさしい日本語変換", "doc_input": "変換したい文章を入力", "doc_output": "やさしい日本語",
+      "sign": "サイン・案内板作成", "sign_input": "案内板の情報を入力", "sign_output": "案内板デザイン"
+    },
+    "news": {
+      "summary": "ニュース要約", "summary_input": "ニュース記事のURLまたは本文を貼り付け", "summary_output": "要約結果",
+      "brief": "朝のブリーフィング", "brief_input": "関心分野を入力", "brief_output": "今日のブリーフィング",
+      "fact": "ファクトチェック", "fact_input": "確認したい情報を入力", "fact_output": "ファクトチェック結果"
+    }
+  }
+}
