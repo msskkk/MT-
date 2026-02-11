@@ -1,0 +1,204 @@
+{
+  "tools": {
+    "daily": {
+      "wardrobe": "Outfit Suggestion", "wardrobe_input": "Upload a photo of your closet", "wardrobe_output": "Today's Recommended Outfit",
+      "calorie": "Calorie Analysis", "calorie_input": "Upload a photo of your meal", "calorie_output": "Calorie & Nutrition Analysis",
+      "recipe": "Recipe Suggestion", "recipe_input": "Upload a photo of your fridge", "recipe_output": "Recommended Recipes"
+    },
+    "creator": {
+      "thumbnail": "Thumbnail Generator", "thumbnail_input": "Enter video title", "thumbnail_output": "Thumbnail Ideas",
+      "voice": "Voice Clone", "voice_input": "Enter script text", "voice_output": "Voice Script",
+      "pitch": "Slide Generator", "pitch_input": "Enter presentation topic", "pitch_output": "Slide Structure"
+    },
+    "sidehustle": {
+      "listing": "Listing Generator", "listing_input": "Upload product photo", "listing_output": "Product Description",
+      "invoice": "Invoice Creator", "invoice_input": "Enter invoice details", "invoice_output": "Invoice Preview",
+      "contract": "Contract Review", "contract_input": "Upload contract file", "contract_output": "Review Results"
+    },
+    "beauty": {
+      "skin": "Skin Diagnosis", "skin_input": "Upload face photo", "skin_output": "Skin Analysis Report",
+      "outfit": "Style Advice", "outfit_input": "Upload full-body photo", "outfit_output": "Style Suggestions",
+      "headshot": "Profile Photo", "headshot_input": "Upload selfie", "headshot_output": "Professional Headshot Tips"
+    },
+    "parent": {
+      "babyname": "Baby Naming", "babyname_input": "Enter naming preferences", "babyname_output": "Name Suggestions",
+      "plant": "Plant Diagnosis", "plant_input": "Upload plant photo", "plant_output": "Diagnosis Results",
+      "receipt": "Budget Tracker", "receipt_input": "Upload receipt photo", "receipt_output": "Expense Log"
+    },
+    "student": {
+      "study": "Quiz Generator", "study_input": "Upload textbook photo", "study_output": "Practice Questions",
+      "tone": "Tone Converter", "tone_input": "Enter text to convert", "tone_output": "Converted Text",
+      "resume": "Resume Optimizer", "resume_input": "Upload resume file", "resume_output": "Optimization Tips"
+    },
+    "health": {
+      "symptom": "Symptom Checker", "symptom_input": "Enter health info", "symptom_output": "Health Advice",
+      "run": "Running Routes", "run_input": "Enter running preferences", "run_output": "Recommended Route",
+      "meal": "Meal Planner", "meal_input": "Enter dietary info", "meal_output": "Meal Plan"
+    },
+    "design": {
+      "logo": "Logo Generator", "logo_input": "Enter brand info", "logo_output": "Logo Concepts",
+      "color": "Color Palette", "color_input": "Upload reference image", "color_output": "Color Suggestions",
+      "mockup": "Mockup Generator", "mockup_input": "Enter product info", "mockup_output": "Mockup Design"
+    },
+    "realestate": {
+      "floor": "3D Interior", "floor_input": "Upload room photo", "floor_output": "Interior Plan",
+      "value": "Property Valuation", "value_input": "Enter property info", "value_output": "Valuation Results",
+      "checklist": "Viewing Checklist", "checklist_input": "Enter viewing criteria", "checklist_output": "Checklist"
+    },
+    "sns": {
+      "caption": "Caption Generator", "caption_input": "Enter post topic", "caption_output": "Caption Ideas",
+      "hashtag": "Hashtag Analysis", "hashtag_input": "Enter content keywords", "hashtag_output": "Recommended Hashtags",
+      "bg": "Product Photo Edit", "bg_input": "Upload product photo", "bg_output": "Editing Advice"
+    },
+    "money": {
+      "budget": "Budget Planner", "budget_input": "Enter financial info", "budget_output": "Budget Plan",
+      "tax": "Tax Helper", "tax_input": "Enter income info", "tax_output": "Tax Advice",
+      "saving": "Savings Plan", "saving_input": "Enter savings goal", "saving_output": "Savings Strategy"
+    },
+    "pet": {
+      "petphoto": "Pet Photos", "petphoto_input": "Upload pet photo", "petphoto_output": "Photo Tips",
+      "petfood": "Pet Diet", "petfood_input": "Enter pet info", "petfood_output": "Diet Advice",
+      "petsymptom": "Pet Health", "petsymptom_input": "Describe symptoms", "petsymptom_output": "Health Advice"
+    },
+    "travel": {
+      "plan": "Trip Planner", "plan_input": "Enter travel preferences", "plan_output": "Travel Plan",
+      "pack": "Packing List", "pack_input": "Enter destination info", "pack_output": "Packing List",
+      "phrase": "Travel Phrases", "phrase_input": "Enter scenario", "phrase_output": "Useful Phrases"
+    },
+    "writer": {
+      "blog": "Blog Writer", "blog_input": "Enter article topic", "blog_output": "Article Outline",
+      "mail": "Email Drafter", "mail_input": "Enter email key points", "mail_output": "Email Draft",
+      "proofread": "Proofreader", "proofread_input": "Enter text to proofread", "proofread_output": "Proofread Results"
+    },
+    "diy": {
+      "plan": "DIY Planner", "plan_input": "Upload site photo", "plan_output": "Build Plan",
+      "cost": "Cost Estimate", "cost_input": "Enter project info", "cost_output": "Cost Breakdown",
+      "fix": "Repair Guide", "fix_input": "Upload damage photo", "fix_output": "Repair Steps"
+    },
+    "music": {
+      "chord": "Chord Progressions", "chord_input": "Enter music genre", "chord_output": "Chord Ideas",
+      "lyric": "Lyric Generator", "lyric_input": "Enter lyric theme", "lyric_output": "Lyric Draft",
+      "mix": "Mix Advice", "mix_input": "Enter track info", "mix_output": "Mixing Tips"
+    },
+    "game": {
+      "idea": "Game Concept", "idea_input": "Enter game genre", "idea_output": "Concept Ideas",
+      "story": "Story Setting", "story_input": "Enter world setting", "story_output": "Story Outline",
+      "balance": "Balance Tuning", "balance_input": "Enter parameter info", "balance_output": "Balance Suggestions"
+    },
+    "cook": {
+      "arrange": "Dish Improvement", "arrange_input": "Upload dish photo", "arrange_output": "Improvement Tips",
+      "menu": "Menu Planner", "menu_input": "Enter meal preferences", "menu_output": "Weekly Menu",
+      "pairing": "Pairing Suggestion", "pairing_input": "Enter main dish", "pairing_output": "Pairing Ideas"
+    },
+    "fitness": {
+      "form": "Form Check", "form_input": "Upload exercise photo", "form_output": "Form Guidance",
+      "program": "Training Program", "program_input": "Enter training goals", "program_output": "Training Program",
+      "stretch": "Stretch Menu", "stretch_input": "Enter body condition", "stretch_output": "Stretch Routine"
+    },
+    "photo": {
+      "enhance": "Photo Enhancement", "enhance_input": "Upload photo", "enhance_output": "Enhancement Tips",
+      "comp": "Composition Advice", "comp_input": "Upload photo", "comp_output": "Composition Analysis",
+      "edit": "Edit Guide", "edit_input": "Upload photo", "edit_output": "Editing Steps"
+    },
+    "legal": {
+      "check": "Contract Review", "check_input": "Upload contract file", "check_output": "Review Results",
+      "consult": "Legal Q&A", "consult_input": "Describe legal question", "consult_output": "Legal Info",
+      "letter": "Letter Drafting", "letter_input": "Enter letter key points", "letter_output": "Letter Draft"
+    },
+    "learn": {
+      "explain": "Easy Explanation", "explain_input": "Enter topic to learn", "explain_output": "Explanation",
+      "quiz": "Quiz Generator", "quiz_input": "Enter study scope", "quiz_output": "Quiz Questions",
+      "roadmap": "Learning Roadmap", "roadmap_input": "Enter learning goal", "roadmap_output": "Study Plan"
+    },
+    "wedding": {
+      "plan": "Wedding Planner", "plan_input": "Enter wedding preferences", "plan_output": "Wedding Plan",
+      "speech": "Speech Writer", "speech_input": "Enter speech details", "speech_output": "Speech Draft",
+      "budget": "Budget Manager", "budget_input": "Enter budget info", "budget_output": "Budget Allocation"
+    },
+    "moving": {
+      "checklist": "Moving Checklist", "checklist_input": "Enter moving details", "checklist_output": "To-Do List",
+      "cost": "Cost Estimate", "cost_input": "Enter moving info", "cost_output": "Cost Breakdown",
+      "layout": "Layout Planner", "layout_input": "Upload room photo", "layout_output": "Layout Plan"
+    },
+    "kid": {
+      "story": "Story Generator", "story_input": "Enter story preferences", "story_output": "Original Story",
+      "quiz": "Learning Quiz", "quiz_input": "Enter study scope", "quiz_output": "Quiz Questions",
+      "craft": "Craft Ideas", "craft_input": "Enter materials info", "craft_output": "Craft Plan"
+    },
+    "senior": {
+      "health": "Health Manager", "health_input": "Enter health info", "health_output": "Health Advice",
+      "digital": "Digital Guide", "digital_input": "Describe tech question", "digital_output": "Step-by-Step Guide",
+      "memory": "Memory Album", "memory_input": "Upload old photo", "memory_output": "Memory Story"
+    },
+    "date": {
+      "plan": "Date Planner", "plan_input": "Enter date preferences", "plan_output": "Date Plan",
+      "gift": "Gift Finder", "gift_input": "Enter partner info", "gift_output": "Gift Ideas",
+      "message": "Message Writer", "message_input": "Enter message context", "message_output": "Message Draft"
+    },
+    "car": {
+      "diagnose": "Car Diagnosis", "diagnose_input": "Describe car issue", "diagnose_output": "Diagnosis Results",
+      "cost": "Cost Calculator", "cost_input": "Enter vehicle info", "cost_output": "Annual Costs",
+      "compare": "Car Comparison", "compare_input": "Enter candidate cars", "compare_output": "Comparison Analysis"
+    },
+    "sleep": {
+      "analyze": "Sleep Analysis", "analyze_input": "Enter sleep info", "analyze_output": "Analysis Report",
+      "routine": "Night Routine", "routine_input": "Enter lifestyle info", "routine_output": "Improvement Plan",
+      "sound": "Sleep Sounds", "sound_input": "Enter preferences", "sound_output": "Sound Recommendations"
+    },
+    "eco": {
+      "footprint": "Carbon Footprint", "footprint_input": "Enter lifestyle info", "footprint_output": "CO2 Report",
+      "swap": "Eco Alternatives", "swap_input": "Upload product photo", "swap_output": "Alternative Suggestions",
+      "save": "Energy Saving", "save_input": "Enter energy usage info", "save_output": "Saving Tips"
+    },
+    "invest": {
+      "analysis": "Investment Analysis", "analysis_input": "Enter investment info", "analysis_output": "Analysis Report",
+      "portfolio": "Asset Allocation", "portfolio_input": "Enter asset info", "portfolio_output": "Allocation Suggestions",
+      "news": "Market Insight", "news_input": "Enter topic of interest", "news_output": "Market Analysis"
+    },
+    "therapy": {
+      "journal": "Mood Journal", "journal_input": "Write about your day", "journal_output": "Mindful Feedback",
+      "breathe": "Breathing Exercise", "breathe_input": "Enter current state", "breathe_output": "Exercise Guide",
+      "cbt": "CBT Exercise", "cbt_input": "Describe your concern", "cbt_output": "Cognitive Analysis"
+    },
+    "fashion": {
+      "coord": "Outfit Planner", "coord_input": "Upload clothing photo", "coord_output": "Outfit Ideas",
+      "trend": "Trend Analysis", "trend_input": "Enter style preferences", "trend_output": "Trend Report",
+      "capsule": "Capsule Wardrobe", "capsule_input": "Enter budget and style", "capsule_output": "Shopping List"
+    },
+    "garden": {
+      "identify": "Plant Identifier", "identify_input": "Upload plant photo", "identify_output": "Identification Results",
+      "calendar": "Growing Calendar", "calendar_input": "Enter growing conditions", "calendar_output": "Growing Schedule",
+      "trouble": "Plant Doctor", "trouble_input": "Upload problem photo", "trouble_output": "Solution"
+    },
+    "biz": {
+      "swot": "SWOT Analysis", "swot_input": "Enter business info", "swot_output": "Analysis Report",
+      "pitch": "Business Plan", "pitch_input": "Enter project overview", "pitch_output": "Business Plan",
+      "email": "Business Email", "email_input": "Enter email key points", "email_output": "Email Draft"
+    },
+    "lang": {
+      "conv": "Conversation Practice", "conv_input": "Start a conversation", "conv_output": "Conversation Feedback",
+      "vocab": "Vocabulary Builder", "vocab_input": "Enter study preferences", "vocab_output": "Word List",
+      "trans": "Translate + Explain", "trans_input": "Enter text to translate", "trans_output": "Translation Results"
+    },
+    "archive": {
+      "closet": "Closet Organizer", "closet_input": "Upload closet photo", "closet_output": "Organization Plan",
+      "desk": "Desk Organizer", "desk_input": "Upload desk photo", "desk_output": "Improvement Plan",
+      "digital": "Phone Cleanup", "digital_input": "Enter phone status", "digital_output": "Digital Cleanup Plan"
+    },
+    "event": {
+      "plan": "Event Planner", "plan_input": "Enter event details", "plan_output": "Event Plan",
+      "invite": "Invitation Writer", "invite_input": "Enter event info", "invite_output": "Invitation Text",
+      "gift": "Gift Finder", "gift_input": "Enter recipient info", "gift_output": "Gift Ideas"
+    },
+    "access": {
+      "web": "Web Accessibility Audit", "web_input": "Enter website URL", "web_output": "Accessibility Report",
+      "doc": "Plain Language Converter", "doc_input": "Enter text to simplify", "doc_output": "Simplified Version",
+      "sign": "Signage Designer", "sign_input": "Enter signage info", "sign_output": "Sign Design"
+    },
+    "news": {
+      "summary": "News Summary", "summary_input": "Paste news URL or text", "summary_output": "Summary",
+      "brief": "Morning Briefing", "brief_input": "Select areas of interest", "brief_output": "Today's Briefing",
+      "fact": "Fact Check", "fact_input": "Enter claim to verify", "fact_output": "Fact Check Results"
+    }
+  }
+}
