@@ -28,6 +28,7 @@ export default function AppShell() {
   const [toolIdx, setToolIdx] = useState(0);
   const [processing, setProcessing] = useState(false);
   const [results, setResults] = useState<string[]>([]);
+  const [htmlPreview, setHtmlPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(2);
   const [historyList, setHistoryList] = useState<HistoryEntry[]>([]);
@@ -50,6 +51,7 @@ export default function AppShell() {
     setView("category");
     setCategoryId(id);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -59,6 +61,7 @@ export default function AppShell() {
     setBundleId(id);
     setToolIdx(0);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -69,6 +72,7 @@ export default function AppShell() {
     setBundleId(null);
     setToolIdx(0);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -78,6 +82,7 @@ export default function AppShell() {
     setBundleId(null);
     setToolIdx(0);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -85,6 +90,7 @@ export default function AppShell() {
   function switchTool(idx: number) {
     setToolIdx(idx);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
   }
 
@@ -93,6 +99,7 @@ export default function AppShell() {
 
     setProcessing(true);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
 
     // Gather user input
@@ -138,6 +145,9 @@ export default function AppShell() {
         }
       } else {
         setResults(data.results || []);
+        if (data.html) {
+          setHtmlPreview(data.html);
+        }
         if (data.remaining !== undefined && data.remaining >= 0) {
           setRemaining(data.remaining);
         }
@@ -523,6 +533,30 @@ export default function AppShell() {
         {error && (
           <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 fadein">
             {error}
+          </div>
+        )}
+
+        {/* Visual Preview */}
+        {htmlPreview && (
+          <div className="mt-5 bg-white rounded-2xl border border-gray-200 p-5 shadow-sm fadein">
+            <h3 className="font-semibold text-gray-800 mb-3 text-sm flex items-center gap-2">
+              <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse inline-block" />
+              プレビュー
+            </h3>
+            <div className="rounded-xl overflow-hidden border border-gray-200 bg-white">
+              <iframe
+                srcDoc={`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;padding:16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-start;background:#fff;}</style></head><body>${htmlPreview}</body></html>`}
+                sandbox="allow-same-origin"
+                className="w-full border-0"
+                style={{ minHeight: "300px", maxHeight: "600px" }}
+                onLoad={(e) => {
+                  const iframe = e.target as HTMLIFrameElement;
+                  if (iframe.contentDocument?.body) {
+                    iframe.style.height = Math.min(600, iframe.contentDocument.body.scrollHeight + 40) + "px";
+                  }
+                }}
+              />
+            </div>
           </div>
         )}
 
