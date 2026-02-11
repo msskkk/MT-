@@ -28,6 +28,7 @@ export default function AppShell() {
   const [toolIdx, setToolIdx] = useState(0);
   const [processing, setProcessing] = useState(false);
   const [results, setResults] = useState<string[]>([]);
+  const [htmlPreview, setHtmlPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(2);
   const [historyList, setHistoryList] = useState<HistoryEntry[]>([]);
@@ -50,6 +51,7 @@ export default function AppShell() {
     setView("category");
     setCategoryId(id);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -59,6 +61,7 @@ export default function AppShell() {
     setBundleId(id);
     setToolIdx(0);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -69,6 +72,7 @@ export default function AppShell() {
     setBundleId(null);
     setToolIdx(0);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -78,6 +82,7 @@ export default function AppShell() {
     setBundleId(null);
     setToolIdx(0);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
     window.scrollTo(0, 0);
   }
@@ -85,6 +90,7 @@ export default function AppShell() {
   function switchTool(idx: number) {
     setToolIdx(idx);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
   }
 
@@ -93,6 +99,7 @@ export default function AppShell() {
 
     setProcessing(true);
     setResults([]);
+    setHtmlPreview(null);
     setError(null);
 
     // Gather user input
@@ -138,6 +145,9 @@ export default function AppShell() {
         }
       } else {
         setResults(data.results || []);
+        if (data.html) {
+          setHtmlPreview(data.html);
+        }
         if (data.remaining !== undefined && data.remaining >= 0) {
           setRemaining(data.remaining);
         }
@@ -526,8 +536,37 @@ export default function AppShell() {
           </div>
         )}
 
-        {/* Results */}
-        {results.length > 0 && (
+        {/* Rich HTML Result */}
+        {htmlPreview && (
+          <div className="mt-5 fadein">
+            <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+              <iframe
+                srcDoc={`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box}body{margin:0;padding:16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;-webkit-font-smoothing:antialiased}</style></head><body>${htmlPreview}</body></html>`}
+                sandbox="allow-same-origin"
+                className="w-full border-0"
+                style={{ minHeight: "400px" }}
+                onLoad={(e) => {
+                  const iframe = e.target as HTMLIFrameElement;
+                  if (iframe.contentDocument?.body) {
+                    const h = iframe.contentDocument.body.scrollHeight + 32;
+                    iframe.style.height = Math.max(400, h) + "px";
+                  }
+                }}
+              />
+            </div>
+            <div className="mt-3 flex gap-2">
+              <button
+                onClick={processAI}
+                className={`px-4 py-2 text-xs font-medium text-white rounded-lg bg-gradient-to-r ${bundle.gradient} hover:opacity-90 transition-opacity`}
+              >
+                🔄 {tt("nav.regenerate")}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Fallback text results (when no HTML) */}
+        {!htmlPreview && results.length > 0 && (
           <div className="mt-5 bg-white rounded-2xl border border-gray-200 p-5 shadow-sm fadein">
             <h3 className="font-semibold text-gray-800 mb-3 text-sm flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse inline-block" />
@@ -545,12 +584,6 @@ export default function AppShell() {
               ))}
             </div>
             <div className="mt-4 flex gap-2">
-              <button className="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
-                📋 {tt("nav.copy")}
-              </button>
-              <button className="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
-                💾 {tt("nav.save")}
-              </button>
               <button
                 onClick={processAI}
                 className="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
