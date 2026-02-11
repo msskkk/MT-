@@ -19,7 +19,8 @@
     "dailyLimitReached": "本日の無料回数を使い切りました",
     "upgrade": "プレミアムにアップグレード",
     "freeRemaining": "残り{{count}}回(今日)",
-    "premium": "プレミアム"
+    "premium": "プレミアム",
+    "history": "履歴"
   },
   "categories": {
     "life": { "name": "暮らし" },

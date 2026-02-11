@@ -1,15 +1,25 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { categories } from "@/data/categories";
 import { bundles } from "@/data/bundles";
 import { type Locale, LOCALES, getLocaleLabel, loadDict, t } from "@/lib/i18n";
-import { canUse, getRemainingUses, isPremium, recordUse } from "@/lib/usage";
 import type { Bundle, Tool } from "@/data/types";
 
-type View = "home" | "category" | "bundle";
+type View = "home" | "category" | "bundle" | "history";
+
+interface HistoryEntry {
+  id: string;
+  bundleId: string;
+  toolId: string;
+  input: string;
+  output: string;
+  createdAt: string;
+}
 
 export default function AppShell() {
+  const { data: session } = useSession();
   const [locale, setLocale] = useState<Locale>("ja");
   const [dict, setDict] = useState<Record<string, unknown>>({});
   const [view, setView] = useState<View>("home");
@@ -19,6 +29,8 @@ export default function AppShell() {
   const [processing, setProcessing] = useState(false);
   const [results, setResults] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [remaining, setRemaining] = useState(2);
+  const [historyList, setHistoryList] = useState<HistoryEntry[]>([]);
 
   useEffect(() => {
     loadDict(locale).then(setDict);
@@ -79,8 +91,8 @@ export default function AppShell() {
   async function processAI() {
     if (!tool || !bundle) return;
 
-    if (!canUse()) {
-      setError(tt("nav.dailyLimitReached"));
+    if (!session) {
+      signIn();
       return;
     }
 
@@ -116,16 +128,24 @@ export default function AppShell() {
           aiPrompt: tool.aiPrompt,
           userInput,
           locale,
+          bundleId: bundle.id,
+          toolId: tool.id,
         }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "API error");
+        if (data.error === "daily_limit") {
+          setError(tt("nav.dailyLimitReached"));
+        } else {
+          setError(data.error || "API error");
+        }
       } else {
-        recordUse();
         setResults(data.results || []);
+        if (data.remaining !== undefined && data.remaining >= 0) {
+          setRemaining(data.remaining);
+        }
       }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Network error");
@@ -179,11 +199,38 @@ export default function AppShell() {
     );
   }
 
+  const userIsPremium = !!(session?.user as Record<string, unknown>)?.isPremium;
+
+  // ─── Upgrade ───
+  async function handleUpgrade() {
+    if (!session) { signIn(); return; }
+    try {
+      const res = await fetch("/api/checkout", { method: "POST" });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else setError(data.error || "Stripe not configured");
+    } catch { setError("Network error"); }
+  }
+
+  // ─── History ───
+  async function loadHistory() {
+    if (!session) return;
+    try {
+      const res = await fetch("/api/history");
+      const data = await res.json();
+      setHistoryList(data.history || []);
+    } catch { /* ignore */ }
+  }
+
+  function openHistory() {
+    loadHistory();
+    setView("history");
+    window.scrollTo(0, 0);
+  }
+
   // ─── Usage badge ───
   function UsageBadge() {
-    const remaining = getRemainingUses();
-    const prem = isPremium();
-    if (prem) {
+    if (userIsPremium) {
       return (
         <span className="text-[10px] bg-yellow-400 text-yellow-900 px-2 py-0.5 rounded-full font-bold">
           {tt("nav.premium")}
@@ -197,11 +244,67 @@ export default function AppShell() {
     );
   }
 
+  // ─── Auth button ───
+  function AuthButton() {
+    if (!session) {
+      return (
+        <button onClick={() => signIn()} className="text-[10px] text-blue-600 font-medium hover:underline">
+          ログイン
+        </button>
+      );
+    }
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-[10px] text-gray-500">{session.user?.name || session.user?.email}</span>
+        <button onClick={() => signOut()} className="text-[10px] text-gray-400 hover:text-gray-600">
+          ログアウト
+        </button>
+      </div>
+    );
+  }
+
+  // ─── HISTORY VIEW ───
+  if (view === "history") {
+    return (
+      <main className="max-w-lg mx-auto px-4 min-h-screen">
+        <div className="bg-gradient-to-r from-gray-700 to-gray-900 rounded-b-3xl px-6 pt-8 pb-8 text-white mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <BackButton onClick={goHome} />
+          </div>
+          <h1 className="text-2xl font-bold">📋 {tt("nav.history") || "履歴"}</h1>
+        </div>
+        <div className="px-2 pb-16 space-y-3">
+          {historyList.length === 0 && (
+            <p className="text-center text-gray-400 text-sm py-8">まだ履歴がありません</p>
+          )}
+          {historyList.map((h) => {
+            const b = bundles.find((b) => b.id === h.bundleId);
+            return (
+              <div key={h.id} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-lg">{b?.emoji || "🤖"}</span>
+                  <span className="text-xs font-semibold text-gray-700">{tt(`bundles.${h.bundleId}.name`)}</span>
+                  <span className="text-[10px] text-gray-400 ml-auto">{new Date(h.createdAt).toLocaleString()}</span>
+                </div>
+                <p className="text-xs text-gray-500 mb-2 truncate">{h.input}</p>
+                <div className="space-y-1">
+                  {(JSON.parse(h.output) as string[]).slice(0, 3).map((line, i) => (
+                    <p key={i} className="text-xs text-gray-600 bg-gray-50 rounded p-1.5">{line}</p>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </main>
+    );
+  }
+
   // ─── HOME VIEW ───
   if (view === "home") {
     return (
       <main className="max-w-lg mx-auto px-6 py-12 min-h-screen flex flex-col">
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between items-start mb-10">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               {tt("app.title")}
@@ -211,7 +314,22 @@ export default function AppShell() {
           <div className="flex flex-col items-end gap-2">
             <LangSwitcher />
             <UsageBadge />
+            <AuthButton />
           </div>
+        </div>
+
+        {/* Action bar */}
+        <div className="flex gap-2 mb-8">
+          {session && (
+            <button onClick={openHistory} className="px-3 py-1.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
+              📋 履歴
+            </button>
+          )}
+          {session && !userIsPremium && (
+            <button onClick={handleUpgrade} className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-yellow-400 to-amber-500 text-white rounded-lg hover:opacity-90 transition-opacity">
+              ⭐ プレミアム ¥980/月
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-10 gap-x-4 justify-items-center">
           {categories.map((c) => (
