@@ -129,7 +129,18 @@ export async function POST(req: NextRequest) {
       html = renderToolHtml(toolId, text, userInput);
     }
     if (!html) {
-      html = textToStyledHtml(text);
+      // If the AI returned JSON (for a template tool) but rendering failed,
+      // don't display raw JSON as text - show a friendly fallback instead
+      const looksLikeJson = /^\s*[\{```]/.test(text.trim());
+      if (toolJsonPrompt && looksLikeJson) {
+        html = `<div style="max-width:480px;margin:0 auto;font-family:${SF};text-align:center;padding:40px 20px;">
+          <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+          <div style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:8px;">表示の処理中にエラーが発生しました</div>
+          <div style="font-size:12px;color:#64748b;">もう一度お試しください</div>
+        </div>`;
+      } else {
+        html = textToStyledHtml(text);
+      }
     }
 
     const lines = text
