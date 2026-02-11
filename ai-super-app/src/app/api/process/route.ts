@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
     // Try template-based rendering first, fallback to text-to-HTML
     let html: string | null = null;
     if (toolId && toolJsonPrompt) {
-      html = renderToolHtml(toolId, text);
+      html = renderToolHtml(toolId, text, userInput);
     }
     if (!html) {
       html = textToStyledHtml(text);
