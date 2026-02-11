@@ -6,36 +6,58 @@ import { prisma } from "@/lib/prisma";
 
 const FREE_DAILY_LIMIT = 2;
 
-// Tools that should generate visual HTML/SVG output
-const VISUAL_TOOLS: Record<string, string> = {
-  logo: `必ず以下の形式で出力してください：
-まず各コンセプトの説明を日本語で箇条書き（3案）。
-その後、---HTML_START---と---HTML_END---で囲んだ1つのHTMLブロックを出力。
-HTMLはスタンドアロン（外部リソース不要）で、3つのロゴをSVGで描いてください。
-各ロゴは200x200px程度で、ブランド名・シンボル・配色を含めてください。
-背景は白にしてください。全体を横並びに配置してください。`,
+// Universal rich HTML output instruction for ALL tools
+const RICH_HTML_BASE = `
+【出力形式】必ず ---HTML_START--- と ---HTML_END--- で囲んだHTMLブロックを出力してください。
+テキスト説明は不要です。全てHTMLの中に含めてください。
 
-  color: `必ず以下の形式で出力してください：
-まずカラーパレットの説明を日本語で箇条書き。
-その後、---HTML_START---と---HTML_END---で囲んだ1つのHTMLブロックを出力。
-HTMLはスタンドアロンで、抽出した色をカラースウォッチとして表示してください。
-各色は80x80pxの正方形で、その下にHEXコードと色名を表示。
-全体をflexboxで横並びに配置し、見やすくデザインしてください。`,
+【デザインルール】
+- スタンドアロンHTML（外部リソース不要）、インラインstyleのみ使用
+- font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif
+- 幅は100%、max-width:480px、margin:0 auto
+- カード型レイアウト: 角丸12px、box-shadow: 0 2px 12px rgba(0,0,0,0.08)
+- セクション見出し: 左にカラーバー(4px)付き、絵文字アイコン付き
+- 配色は統一感のあるカラースキームで、グラデーション活用
+- 余白をしっかり取り、読みやすく
+- 重要な情報は太字・色付き・バッジ表示
+- リスト項目はカード化して視覚的に区別`;
 
-  mockup: `必ず以下の形式で出力してください：
-まずUI/UXの構成説明を日本語で箇条書き。
-その後、---HTML_START---と---HTML_END---で囲んだ1つのHTMLブロックを出力。
-HTMLはスタンドアロンで、モックアップをHTML/CSSで実際に描画してください。
-モバイルアプリ風のUIを375x667pxのフレーム内に描画。
-ヘッダー、ナビゲーション、コンテンツ、ボタンなどの要素を含めてください。
-色やフォントサイズも指定のスタイルに合わせてください。`,
+// Tool-specific extra instructions
+const TOOL_EXTRAS: Record<string, string> = {
+  // Travel
+  plan: `【追加】日程をタイムライン形式で表示：左に日付バッジ（丸い円+日目）、右に詳細カード。各日のヘッダーはグラデーション背景。
+場所名にはピンアイコン(📍)を付け、移動手段にはアイコン(✈️🚗🚶)を表示。
+最後にシンプルなルートマップをSVGで描画（点と線で主要スポットをつなぐ地図風イラスト）。`,
+  spot: `【追加】各スポットをカード形式で表示。評価を星(★)で表示。カテゴリごとに色分け。
+地図風のシンプルなSVGイラスト(点と線)でスポット位置関係を示してください。`,
+  pack: `【追加】持ち物をカテゴリ別カードで表示。チェックリスト形式(☐)で、重要度を色分け（赤=必須、黄=推奨、灰=あると便利）。`,
 
-  thumbnail: `必ず以下の形式で出力してください：
-まずサムネイルデザインの構成説明を日本語で箇条書き。
-その後、---HTML_START---と---HTML_END---で囲んだ1つのHTMLブロックを出力。
-HTMLはスタンドアロンで、YouTubeサムネイル(1280x720px比率)をHTML/CSSで実際に描画してください。
-テキスト配置、背景グラデーション、フォントサイズ、色使いを実装してください。
-インパクトのあるデザインにしてください。`,
+  // Design
+  logo: `【追加】3つのロゴコンセプトをSVGで実際に描画（各200x200px）。ブランド名・シンボル・配色を含む。横並びに配置。`,
+  color: `【追加】カラースウォッチを丸い円(60x60px)で表示、HEXコード付き。メイン/サブ/アクセントに分類。グラデーション例も表示。`,
+  mockup: `【追加】モバイルUIモックアップをHTML/CSSで実際に描画。375x667pxのスマホフレーム(角丸+影)内にUI要素を配置。`,
+  thumbnail: `【追加】YouTubeサムネイル(16:9比率)をHTML/CSSで実際にデザイン。グラデーション背景、大きな太字テキスト、インパクトのある配色。`,
+
+  // Finance / Money
+  invoice: `【追加】請求書をテーブルレイアウトで表示。ヘッダーに会社名、明細行、合計金額は大きく強調。`,
+  budget: `【追加】予算をSVGの棒グラフ/円グラフで視覚化。カテゴリごとに色分け。`,
+
+  // Food
+  recipe: `【追加】レシピをカード形式で表示。調理時間・難易度バッジ付き。材料リストと手順をステップ番号付きで。`,
+  calorie: `【追加】栄養素をプログレスバーで視覚化。カロリーは大きく円形ゲージ風に。PFC比率をSVG円グラフで表示。`,
+  arrange: `【追加】盛り付けレイアウトをSVGで描画。皿の上の配置を図解。`,
+
+  // Health / Fitness
+  menu: `【追加】トレーニングメニューをタイムライン形式で。セット数・回数をバッジ表示。部位ごとに色分け。`,
+  routine: `【追加】ルーティンをタイムライン形式で表示。時間帯を色グラデーションで区別（朝=暖色、夜=寒色）。`,
+
+  // Education
+  summary: `【追加】要約をマインドマップ風にSVGで視覚化。キーポイントをカード化して接続線で結ぶ。`,
+  quiz: `【追加】クイズをインタラクティブなカード形式で。選択肢をボタン風に。正解は目立つ色で。`,
+
+  // Real estate / Interior
+  floor: `【追加】間取り/家具配置をSVGで描画。部屋の形を長方形で表し、家具アイコンを配置。`,
+  interior: `【追加】インテリア提案をムードボード風に。色パレットスウォッチ付き。`,
 };
 
 function today(): string {
@@ -94,21 +116,17 @@ export async function POST(req: NextRequest) {
         ? `\n\n重要: ユーザーの言語は${locale === "en" ? "英語" : locale === "zh" ? "中国語" : locale === "ko" ? "韓国語" : locale}です。必ずその言語で回答してください。`
         : "";
 
-    const isVisual = toolId && toolId in VISUAL_TOOLS;
-    const visualInstruction = isVisual ? "\n\n" + VISUAL_TOOLS[toolId] : "";
-    const defaultInstruction = isVisual
-      ? ""
-      : "\n\n出力は箇条書きで5〜7行程度にしてください。各行は絵文字で始めてください。簡潔に。";
+    const toolExtra = (toolId && TOOL_EXTRAS[toolId]) ? "\n" + TOOL_EXTRAS[toolId] : "";
 
     const client = new Anthropic();
     const message = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: isVisual ? 4096 : 1024,
+      max_tokens: 4096,
       system:
         aiPrompt +
         localeInstruction +
-        visualInstruction +
-        defaultInstruction,
+        "\n\n" + RICH_HTML_BASE +
+        toolExtra,
       messages: [{ role: "user", content: userInput }],
     });
 
