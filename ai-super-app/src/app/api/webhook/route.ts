@@ -5,6 +5,10 @@ import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
+  if (!prisma) {
+    return NextResponse.json({ error: "DB not available" }, { status: 503 });
+  }
+
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 

@@ -91,11 +91,6 @@ export default function AppShell() {
   async function processAI() {
     if (!tool || !bundle) return;
 
-    if (!session) {
-      signIn();
-      return;
-    }
-
     setProcessing(true);
     setResults([]);
     setError(null);

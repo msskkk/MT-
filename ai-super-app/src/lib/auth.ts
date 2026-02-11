@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email) return null;
+        if (!credentials?.email || !prisma) return null;
         let user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token.id) {
+      if (session.user && token.id && prisma) {
         (session.user as Record<string, unknown>).id = token.id;
         const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },

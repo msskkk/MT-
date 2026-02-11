@@ -2,8 +2,6 @@ export const dynamic = "force-dynamic";
 
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 const FREE_DAILY_LIMIT = 2;
@@ -14,7 +12,6 @@ function today(): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
     const { aiPrompt, userInput, locale, bundleId, toolId } = await req.json();
 
     if (!aiPrompt || !userInput) {
@@ -24,29 +21,39 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Usage check for authenticated users
+    // Usage check (DB available only)
     let userId: string | null = null;
     let isPremium = false;
 
-    if (session?.user?.email) {
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-      });
-      if (user) {
-        userId = user.id;
-        isPremium = user.isPremium;
+    if (prisma) {
+      try {
+        const { getServerSession } = await import("next-auth");
+        const { authOptions } = await import("@/lib/auth");
+        const session = await getServerSession(authOptions);
 
-        if (!isPremium) {
-          const usage = await prisma.usage.findUnique({
-            where: { userId_date: { userId: user.id, date: today() } },
+        if (session?.user?.email) {
+          const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
           });
-          if (usage && usage.count >= FREE_DAILY_LIMIT) {
-            return NextResponse.json(
-              { error: "daily_limit", remaining: 0 },
-              { status: 429 }
-            );
+          if (user) {
+            userId = user.id;
+            isPremium = user.isPremium;
+
+            if (!isPremium) {
+              const usage = await prisma.usage.findUnique({
+                where: { userId_date: { userId: user.id, date: today() } },
+              });
+              if (usage && usage.count >= FREE_DAILY_LIMIT) {
+                return NextResponse.json(
+                  { error: "daily_limit", remaining: 0 },
+                  { status: 429 }
+                );
+              }
+            }
           }
         }
+      } catch {
+        // Auth/DB not available, continue without
       }
     }
 
@@ -73,37 +80,45 @@ export async function POST(req: NextRequest) {
       .map((l) => l.trim())
       .filter((l) => l.length > 0);
 
-    // Record usage & save history
-    if (userId) {
-      await prisma.usage.upsert({
-        where: { userId_date: { userId, date: today() } },
-        update: { count: { increment: 1 } },
-        create: { userId, date: today(), count: 1 },
-      });
-
-      if (bundleId && toolId) {
-        await prisma.history.create({
-          data: {
-            userId,
-            bundleId,
-            toolId,
-            input: userInput.slice(0, 500),
-            output: JSON.stringify(lines),
-            locale: locale || "ja",
-          },
+    // Record usage & save history (DB available only)
+    if (prisma && userId) {
+      try {
+        await prisma.usage.upsert({
+          where: { userId_date: { userId, date: today() } },
+          update: { count: { increment: 1 } },
+          create: { userId, date: today(), count: 1 },
         });
+
+        if (bundleId && toolId) {
+          await prisma.history.create({
+            data: {
+              userId,
+              bundleId,
+              toolId,
+              input: userInput.slice(0, 500),
+              output: JSON.stringify(lines),
+              locale: locale || "ja",
+            },
+          });
+        }
+      } catch {
+        // DB write failed, continue
       }
     }
 
     // Compute remaining uses
     let remaining = FREE_DAILY_LIMIT;
-    if (userId && !isPremium) {
-      const usage = await prisma.usage.findUnique({
-        where: { userId_date: { userId, date: today() } },
-      });
-      remaining = Math.max(0, FREE_DAILY_LIMIT - (usage?.count ?? 0));
+    if (prisma && userId && !isPremium) {
+      try {
+        const usage = await prisma.usage.findUnique({
+          where: { userId_date: { userId, date: today() } },
+        });
+        remaining = Math.max(0, FREE_DAILY_LIMIT - (usage?.count ?? 0));
+      } catch {
+        // ignore
+      }
     } else if (isPremium) {
-      remaining = -1; // unlimited
+      remaining = -1;
     }
 
     return NextResponse.json({ results: lines, remaining });
