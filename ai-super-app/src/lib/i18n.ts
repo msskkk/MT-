@@ -1,3 +1,12 @@
+import jaMain from "@/i18n/ja.json";
+import enMain from "@/i18n/en.json";
+import zhMain from "@/i18n/zh.json";
+import koMain from "@/i18n/ko.json";
+import jaTools from "@/i18n/tools-ja.json";
+import enTools from "@/i18n/tools-en.json";
+import zhTools from "@/i18n/tools-zh.json";
+import koTools from "@/i18n/tools-ko.json";
+
 export const LOCALES = ["ja", "en", "zh", "ko"] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -12,18 +21,19 @@ export function getLocaleLabel(locale: Locale): string {
   return LOCALE_LABELS[locale];
 }
 
-let dictCache: Record<string, Record<string, unknown>> = {};
+const DICTS: Record<Locale, Record<string, unknown>> = {
+  ja: { ...jaMain, ...jaTools },
+  en: { ...enMain, ...enTools },
+  zh: { ...zhMain, ...zhTools },
+  ko: { ...koMain, ...koTools },
+};
 
-export async function loadDict(locale: Locale): Promise<Record<string, unknown>> {
-  if (dictCache[locale]) return dictCache[locale];
-  const [main, tools] = await Promise.all([
-    import(`@/i18n/${locale}.json`).then((m) => m.default),
-    import(`@/i18n/tools-${locale}.json`)
-      .then((m) => m.default)
-      .catch(() => ({})),
-  ]);
-  dictCache[locale] = { ...main, ...tools };
-  return dictCache[locale];
+export function getDict(locale: Locale): Record<string, unknown> {
+  return DICTS[locale] || DICTS.ja;
+}
+
+export function loadDict(locale: Locale): Promise<Record<string, unknown>> {
+  return Promise.resolve(getDict(locale));
 }
 
 export function t(

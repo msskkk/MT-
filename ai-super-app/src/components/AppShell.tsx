@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { categories } from "@/data/categories";
 import { bundles } from "@/data/bundles";
-import { type Locale, LOCALES, getLocaleLabel, loadDict, t } from "@/lib/i18n";
+import { type Locale, LOCALES, getLocaleLabel, getDict, t } from "@/lib/i18n";
 import type { Bundle, Tool } from "@/data/types";
 
 type View = "home" | "category" | "bundle" | "history";
@@ -21,7 +21,7 @@ interface HistoryEntry {
 export default function AppShell() {
   const { data: session } = useSession();
   const [locale, setLocale] = useState<Locale>("ja");
-  const [dict, setDict] = useState<Record<string, unknown>>({});
+  const [dict, setDict] = useState<Record<string, unknown>>(() => getDict("ja"));
   const [view, setView] = useState<View>("home");
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [bundleId, setBundleId] = useState<string | null>(null);
@@ -33,7 +33,7 @@ export default function AppShell() {
   const [historyList, setHistoryList] = useState<HistoryEntry[]>([]);
 
   useEffect(() => {
-    loadDict(locale).then(setDict);
+    setDict(getDict(locale));
   }, [locale]);
 
   const tt = useCallback(
